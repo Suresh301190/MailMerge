@@ -47,3 +47,32 @@ Route::get ( 'users', function () {
 	
 	return View::make ( 'users' )->with ( 'users', $users );
 } );
+
+Route::get ( 'groups', function () {
+	if (Auth::check ()) {
+		return View::make ( 'dashboard.groups' );
+	}
+	return Redirect::to ( 'login' );
+} );
+
+Route::get ( 'lists', function () {
+	if (Auth::check ()) {
+		return View::make ( 'dashboard.lists' );
+	}
+	return Redirect::to ( 'login' );
+} );
+
+Route::get ( 'send', function () {
+	if (Auth::check ()) {
+		return View::make ( 'dashboard.send' );
+	}
+	return Redirect::to ( 'login' );
+} );
+
+Route::get ( 'profile', function () {
+	if (Auth::check ()) {
+		return View::make ( 'dashboard.profile' );
+	}
+	return Redirect::to ( 'login' );
+} );
+

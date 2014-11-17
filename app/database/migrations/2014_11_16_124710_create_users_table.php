@@ -10,10 +10,11 @@ class CreateUsersTable extends Migration {
 	 */
 	public function up() {
 		Schema::create ( 'users', function ($table) {
-			$table->string ( 'email' )->primary ();
+			$table->string('id')->unique();
 			$table->string ( 'name' );
-			$table->timestamps ();
+			$table->string ( 'email' )->primary ();
 			$table->rememberToken()->nullable();
+			$table->timestamps ();
 		} );
 	}
 	

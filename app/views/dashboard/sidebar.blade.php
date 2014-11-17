@@ -15,7 +15,9 @@
             </li>
             <li><a class="active" href="{{{URL::to('home')}}}"><i
                     class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fa fa-edit fa-fw"></i> Forms</a></li>
+            <li><a href="{{{ URL::to('groups') }}}"><i class="fa fa-edit fa-fw"></i> Manage Groups</a></li>
+            <li><a href="{{{ URL::to('lists') }}}"><i class="fa fa-edit fa-fw"></i> Manage Mailing Lists</a></li>
+            <li><a href="{{{ URL::to('send') }}}"><i class="fa fa-edit fa-fw"></i> Send Mails</a></li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

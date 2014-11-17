@@ -44,6 +44,10 @@
 
     	<!-- Metis Menu Plugin JavaScript -->
     	{{HTML::script('js/plugins/metisMenu/metisMenu.min.js')}}
+    	
+    	<!-- DataTables JavaScript -->
+    	{{HTML::script('js/plugins/dataTables/jquery.dataTables.js')}}
+    	{{HTML::script('js/plugins/dataTables/dataTables.bootstrap.js')}}
 
     	<!-- Morris Charts JavaScript -->
     	{{HTML::script('js/plugins/morris/raphael.min.js')}}
