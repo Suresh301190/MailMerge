@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"themonkeys/laravel-google-auth": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -30,6 +31,22 @@
 			"php artisan key:generate"
 		]
 	},
+	"repositories": [
+        {
+      "type": "package",
+      "package": {
+        "name": "google/google-api-php-client",
+        "version": "0.6.7",
+        "dist": {
+          "url": "http://google-api-php-client.googlecode.com/files/google-api-php-client-0.6.7.tar.gz",
+          "type": "tar"
+        },
+        "autoload": {
+          "classmap": ["src/"]
+        }
+      }
+        }
+    ],
 	"config": {
 		"preferred-install": "dist"
 	},
