@@ -9,10 +9,12 @@ class Group extends Eloquent {
 
     protected $table = 'groups';
 
+    protected $primaryKey = 'gid';
+
     public function scopeAddGroup() {
 
         $data = array ();
-        $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
+        $data ['gname'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'gname' ) ) );
         
         if (self::groupExists ( $data ['gname'] )) {
             $data ['added'] = false;
@@ -46,15 +48,25 @@ class Group extends Eloquent {
                 'group_name' => $group,
                 'gid_name' => Auth::user ()->id . "_" . $group
         ) );
+        
+        Cache::forever ( 'isGroupUpdated', true );
     
     }
 
     public function scopeGetAllGroups() {
 
-        return array (
-                //'groups' => DB::table ( 'groups' )->select ( 'group_name' )->where ( 'gid', '=', Auth::user ()->id );
-                'group' => Group::select('group_name')->
-        );
+        if ( Cache::has ( 'isGroupUpdated' )) {
+            $groups = Group::findMany ( array (
+                    'gid' => Auth::user ()->id
+            ), array (
+                    'group_name'
+            ) )->all ( 'group_name' );
+            
+            Cache::add ( Auth::user ()->id . '_Groups', Helper::cleanGroups($groups), 20 );
+            Cache::forget ( 'isGroupUpdated' );
+        }
+        
+        return Cache::get ( Auth::user ()->id . '_Groups' );
     
     }
 
@@ -63,7 +75,9 @@ class Group extends Eloquent {
         $data = array ();
         $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
         
-        $data ['deleted'] = DB::table ( 'groups' )->where ( 'gid_name', '=', Auth::user ()->id . "_" . $data ['gname'] )->delete ()?true:false;
+        $data ['deleted'] = DB::table ( 'groups' )->where ( 'gid_name', '=', Auth::user ()->id . "_" . $data ['gname'] )->delete () ? true : false;
+        
+        Cache::forever ( 'isGroupUpdated', true );
         
         return $data;
     

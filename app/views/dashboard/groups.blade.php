@@ -7,29 +7,41 @@
         <!-- /.col-lg-12 -->
     </div>
     <div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-default col-lg-9">
             <div class="panel-heading">Add Group</div>
             <!-- -->
-            {{ Form::open(array('url' => 'addNewGroup')) }} {{
-            Form::label('glabel', 'Group Name'); }} {{
-            Form::text('gname') }} {{ Form::submit('Add Group') }} {{
-            Form::close() }}
-            <!--  -->
+            <div class="row">
+                {{ Form::open(array('url' => 'addNewGroup')) }}
+                <div class="col-lg-4">{{ Form::text('gname', NULL,
+                    array('class' => 'form-control', 'placeholder' =>
+                    'Enter Group name' ) ) }}</div>
+                <div class="col-lg-4">{{ Form::submit('Add Group',
+                    array('class' => 'btn btn-default')) }}</div>
+                {{ Form::close() }}
+            </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-default col-lg-9">
             <div class="panel-heading">Delete Group</div>
             <!-- -->
-            {{ Form::open(array('url' => 'deleteGroup')) }} {{
-            Form::label('glabel', 'Group Name'); }} {{
-            Form::text('gname') }} {{ Form::submit('Delete Group') }} {{
-            Form::close() }}
+            {{ Form::open(array('url' => 'deleteGroup')) }}
+            <div class="row">
+                <div class="col-lg-4">{{ Form::select('gname',
+                    Group::getAllGroups(), 'No Group to Delete',
+                    array('class' => 'form-control')) }}</div>
+
+                <div class="col-lg-3">{{ Form::submit('Delete Group',
+                    array('class' => 'btn btn-default')) }}</div>
+            </div>
+            {{ Form::close() }}
             <!--  -->
         </div>
     </div>
-    
+
+    <!--  {{ Helper::arrayPrettyPrint(Group::getAllGroups(), 0) }} -->
+
     <!-- To Display if group was added -->
     @if(isset($added) and $added)
     <div class="alert alert-success">Group {{ $gname }} Added
@@ -37,7 +49,7 @@
     @elseif(isset($added) and ! $added)
     <div class="alert alert-success">Group {{ $gname }} Already Exists</div>
     @endif
-    
+
     <!-- To Display if group was deleted -->
     @if(isset($deleted) and $deleted)
     <div class="alert alert-success">Group {{ $gname }} Deleted
