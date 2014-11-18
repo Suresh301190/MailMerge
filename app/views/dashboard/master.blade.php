@@ -33,7 +33,7 @@
 		<div id="wrapper">
 			@yield('navigation')
             
-            @yield('content')        
+            @yield('content')
 		</div>
 		
 		<!-- jQuery -->

@@ -11,7 +11,7 @@
  * |
  */
 Route::get ( '/', function () {
-	return View::make ( 'hello' );
+    return View::make ( 'hello' );
 } );
 
 /*
@@ -23,60 +23,62 @@ Route::get ( '/', function () {
  */
 
 Route::group ( array (
-		'before' => array (
-				'google-finish-authentication',
-				'auth'
-		)
+        'before' => array (
+                'google-finish-authentication',
+                'auth'
+        )
 ), function () {
-	Route::get ( 'home', 'HomeController@showWelcome' );
+    Route::get ( 'home', 'HomeController@showWelcome' );
 } );
 
 Route::get ( 'login', function () {
-	return View::make ( 'dashboard.login', array (
-			'authUrl' => Auth::getAuthUrl ()
-	) );
+    return View::make ( 'dashboard.login', array (
+            'authUrl' => Auth::getAuthUrl ()
+    ) );
 } );
 
 Route::get ( 'logout', function () {
-	Auth::logout ();
-	return Redirect::to ( 'login' );
+    Auth::logout ();
+    return Redirect::to ( 'login' );
 } );
 
 Route::get ( 'users', function () {
-	$users = User::all ();
-	
-	return View::make ( 'users' )->with ( 'users', $users );
+    $users = User::all ();
+    
+    return View::make ( 'users' )->with ( 'users', $users );
 } );
 
 Route::get ( 'groups', function () {
-	if (Auth::check ()) {
-		return View::make ( 'dashboard.groups');
-	}
-	return Redirect::to ( 'login' );
+    if (Auth::check ()) {
+        return View::make ( 'dashboard.groups', array (
+                'groups' => Group::getAllGroups ()
+        ) );
+    }
+    return Redirect::to ( 'login' );
 } );
 
 Route::get ( 'lists', function () {
-	if (Auth::check ()) {
-		return View::make ( 'dashboard.lists' );
-	}
-	return Redirect::to ( 'login' );
+    if (Auth::check ()) {
+        return View::make ( 'dashboard.lists' );
+    }
+    return Redirect::to ( 'login' );
 } );
 
 Route::get ( 'send', function () {
-	if (Auth::check ()) {
-		return View::make ( 'dashboard.send' );
-	}
-	return Redirect::to ( 'login' );
+    if (Auth::check ()) {
+        return View::make ( 'dashboard.send' );
+    }
+    return Redirect::to ( 'login' );
 } );
 
 Route::get ( 'profile', function () {
-	if (Auth::check ()) {
-		return View::make ( 'dashboard.profile' );
-	}
-	return Redirect::to ( 'login' );
+    if (Auth::check ()) {
+        return View::make ( 'dashboard.profile' );
+    }
+    return Redirect::to ( 'login' );
 } );
 
-Route::post('deleteGroup', 'GroupController@deleteGroup');
+Route::post ( 'deleteGroup', 'GroupController@deleteGroup' );
 
-Route::post('addNewGroup', 'GroupController@addNewGroup');
+Route::post ( 'addNewGroup', 'GroupController@addNewGroup' );
 

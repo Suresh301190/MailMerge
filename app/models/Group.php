@@ -55,18 +55,29 @@ class Group extends Eloquent {
 
     public function scopeGetAllGroups() {
 
-        if ( Cache::has ( 'isGroupUpdated' )) {
-            $groups = Group::findMany ( array (
-                    'gid' => Auth::user ()->id
-            ), array (
-                    'group_name'
-            ) )->all ( 'group_name' );
-            
-            Cache::add ( Auth::user ()->id . '_Groups', Helper::cleanGroups($groups), 20 );
-            Cache::forget ( 'isGroupUpdated' );
-        }
+        /*
+         * if ( Cache::has ( 'isGroupUpdated' )) {
+         * $groups = Group::findMany ( array (
+         * 'gid' => Auth::user ()->id
+         * ), array (
+         * 'group_name'
+         * ) )->all ( 'group_name' );
+         *
+         * Cache::forget( Auth::user ()->id . '_Groups' );
+         * Cache::add ( Auth::user ()->id . '_Groups', Helper::cleanGroups($groups), 20 );
+         * Cache::forget ( 'isGroupUpdated' );
+         * }
+         *
+         * return Cache::get ( Auth::user ()->id . '_Groups' );
+         *
+         */
+        $groups = Group::findMany ( array (
+                'gid' => Auth::user ()->id
+        ), array (
+                'group_name'
+        ) )->all ( 'group_name' );
         
-        return Cache::get ( Auth::user ()->id . '_Groups' );
+        return Helper::cleanGroups ( $groups );
     
     }
 

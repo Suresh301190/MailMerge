@@ -29,7 +29,7 @@
             {{ Form::open(array('url' => 'deleteGroup')) }}
             <div class="row">
                 <div class="col-lg-4">{{ Form::select('gname',
-                    Group::getAllGroups(), 'No Group to Delete',
+                    $groups, 'No Group to Delete',
                     array('class' => 'form-control')) }}</div>
 
                 <div class="col-lg-3">{{ Form::submit('Delete Group',
@@ -43,19 +43,19 @@
     <!--  {{ Helper::arrayPrettyPrint(Group::getAllGroups(), 0) }} -->
 
     <!-- To Display if group was added -->
-    @if(isset($added) and $added)
-    <div class="alert alert-success">Group {{ $gname }} Added
+    @if(isset($data['added']) and $data['added'])
+    <div class="alert alert-success">Group {{ $data['gname'] }} Added
         Successfully</div>
-    @elseif(isset($added) and ! $added)
-    <div class="alert alert-success">Group {{ $gname }} Already Exists</div>
+    @elseif(isset($data['added']) and ! $data['added'])
+    <div class="alert alert-success">Group {{ $data['gname'] }} Already Exists</div>
     @endif
 
     <!-- To Display if group was deleted -->
-    @if(isset($deleted) and $deleted)
-    <div class="alert alert-success">Group {{ $gname }} Deleted
+    @if(isset($data['deleted']) and $data['deleted'])
+    <div class="alert alert-success">Group {{ $data['gname'] }} Deleted
         Successfully</div>
-    @elseif(isset($deleted) and ! $deleted)
-    <div class="alert alert-success">Group {{ $gname }} Doesn't Exists</div>
+    @elseif(isset($data['deleted']) and ! $data['deleted'])
+    <div class="alert alert-success">Group {{ $data['gname'] }} Doesn't Exists</div>
     @endif
 </div>
 @stop
