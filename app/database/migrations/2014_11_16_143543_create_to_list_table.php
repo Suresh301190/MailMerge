@@ -13,8 +13,9 @@ class CreateToListTable extends Migration {
 	public function up()
 	{
 		Schema::create ( 'tolists', function ($table) {
-			$table->string ( 'type_list', 50 );
-			$table->foreign('type_list')->references('to_list')->on('groups')->onUpdate('cascade');
+			$table->engine = 'InnoDB';
+			$table->string ( 'to_id', 100 );
+			$table->foreign('to_id')->references('gid_name')->on('groups')->onUpdate('cascade');
 			$table->string ( 'email', 50 );
 			$table->timestamps ();
 		} );

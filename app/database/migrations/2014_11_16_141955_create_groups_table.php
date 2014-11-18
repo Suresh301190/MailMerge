@@ -1,29 +1,44 @@
 <?php
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+
 class CreateGroupsTable extends Migration {
-	
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up() {
-		Schema::create ( 'groups', function ($table) {
-			$table->string ( 'group_name', 50 )->primary ();
-			$table->string ( 'to_list', 50 )->unique ();
-			$table->string ( 'cc_list', 50 )->unique ();
-			$table->string ( 'bcc_list', 50 )->unique ();
-			$table->timestamps ();
-		} );
-	}
-	
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down() {
-		Schema::drop ( 'groups' );
-	}
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+
+        Schema::create ( 'groups', function ($table) {
+        	$table->engine = 'InnoDB';
+            $table->string ( 'gid', 50 );
+            $table->string ( 'group_name', 50 );
+            $table->string ( 'gid_name', 100 )->unique ();
+            // $table->string ( 'cc_list', 50 )->unique ();
+            // $table->string ( 'bcc_list', 50 )->unique ();
+            $table->timestamps ();
+            
+            $table->primary ( array (
+                    'gid',
+                    'group_name'
+            ) );
+            
+            $table->foreign ( 'gid' )->references ( 'id' )->on ( 'users' )->onUpdate ( 'cascade' );
+        } );
+    
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+
+        Schema::drop ( 'groups' );
+    
+    }
+
 }

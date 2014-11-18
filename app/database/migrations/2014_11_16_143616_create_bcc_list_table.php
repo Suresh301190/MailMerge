@@ -13,8 +13,9 @@ class CreateBccListTable extends Migration {
 	public function up()
 	{
 		Schema::create ( 'bcclists', function ($table) {
-			$table->string ( 'type_list', 50 );
-			$table->foreign('type_list')->references('bcc_list')->on('groups')->onUpdate('cascade');
+			$table->engine = 'InnoDB';
+			$table->string ( 'bcc_id', 100 );
+			$table->foreign('bcc_id')->references('gid_name')->on('groups')->onUpdate('cascade');
 			$table->string ( 'email', 50 );
 			$table->timestamps ();
 		} );
