@@ -25,15 +25,15 @@ Route::get ( '/', function () {
 Route::group ( array (
 		'before' => array (
 				'google-finish-authentication',
-				'auth' 
-		) 
+				'auth'
+		)
 ), function () {
 	Route::get ( 'home', 'HomeController@showWelcome' );
 } );
 
 Route::get ( 'login', function () {
 	return View::make ( 'dashboard.login', array (
-			'authUrl' => Auth::getAuthUrl () 
+			'authUrl' => Auth::getAuthUrl ()
 	) );
 } );
 
@@ -50,7 +50,7 @@ Route::get ( 'users', function () {
 
 Route::get ( 'groups', function () {
 	if (Auth::check ()) {
-		return View::make ( 'dashboard.groups' );
+		return View::make ( 'dashboard.groups');
 	}
 	return Redirect::to ( 'login' );
 } );
@@ -75,4 +75,8 @@ Route::get ( 'profile', function () {
 	}
 	return Redirect::to ( 'login' );
 } );
+
+Route::post('deleteGroup', 'GroupController@deleteGroup');
+
+Route::post('addNewGroup', 'GroupController@addNewGroup');
 

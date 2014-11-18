@@ -30,7 +30,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function scopeAddUser() {
 
         $data = array ();
-        if (!self::userExists()) {
+        if (self::userExists ()) {
             $data ['added'] = false;
         }
         else {
@@ -38,6 +38,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             $data ['added'] = true;
         }
         return $data;
+    
+    }
+
+    public function scopeGetInstance() {
+
+        return $this;
     
     }
 
@@ -50,15 +56,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         $user->save ();
     
     }
+
+    public static function userExists() {
+
+        return DB::table ( 'users' )->where ( 'id', '=', Auth::user ()->id )->count ();
     
-    public static function userExists(){
-        return count(self::getRow());
     }
-    
+
     private static function getRow() {
-        return  DB::select ( 'select * from users where id = \'?\'', array (
-                Auth::user()->id
-        ) );
+
+        return DB::table ( 'users' )->where ( 'id', '=', Auth::user ()->id )->first ();
+    
     }
 
 }

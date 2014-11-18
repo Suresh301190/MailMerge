@@ -16,7 +16,7 @@ class HomeController extends BaseController {
      */
     public function showWelcome() {
 
-        return View::make ( 'dashboard.home', User::addUser ( Auth::user ()->id ) );
+        return View::make ( 'dashboard.home', User::addUser () );
     
     }
 
