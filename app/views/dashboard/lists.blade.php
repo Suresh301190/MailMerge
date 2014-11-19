@@ -42,6 +42,32 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="panel panel-default col-lg-9">
+            <div class="panel-heading">Delete Email</div>
+            <!-- Form Starts -->
+            {{ Form::open(array('url' => 'deleteMails')) }}
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">{{ Form::select('mlist', $mlists,
+                    'No Group to Delete', array('class' =>
+                    'form-control')) }}</div>
+                <div class="col-lg-4">{{ Form::select('gname', $groups,
+                    'No Group to Delete', array('class' =>
+                    'form-control')) }}</div>
+                <div class="col-lg-4">{{ Form::submit('Get list',
+                    array('class' => 'btn btn-default')) }}</div>
+            </div>
+
+            {{ Form::close() }}
+            <!--  -->
+        </div>
+    </div>
+    
+    @yield('showMails')
+
     <!-- To Display if group was added -->
     @if(isset($data['added']) and $data['added'])
     <div class="alert alert-success">E-Mail {{ $data['email'] }} was

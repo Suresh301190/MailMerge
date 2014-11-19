@@ -43,4 +43,18 @@ class Bcclist extends Eloquent {
     
     }
 
+    public function scopeGetAllMails() {
+
+        $gname = Input::get ( 'gname' );
+        
+        $mails = Bcclist::findMany ( array (
+                'bcc_id' => Auth::user ()->id . '_' . $gname
+        ) )->all ( array (
+                'email'
+        ) );
+        
+        return $mails;
+    
+    }
+
 }

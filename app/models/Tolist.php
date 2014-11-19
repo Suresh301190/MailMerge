@@ -42,5 +42,19 @@ class Tolist extends Eloquent {
         $list->save ();
     
     }
+    
+    public function scopeGetAllMails() {
+    
+        $gname = Input::get ( 'gname' );
+    
+        $mails = Tolist::findMany ( array (
+                'to_id' => Auth::user ()->id . '_' . $gname
+        ) )->all ( array (
+                'email'
+        ) );
+    
+        return $mails;
+    
+    }
 
 }

@@ -36,11 +36,11 @@ class Helper {
      * @param unknown $arr
      * @return multitype:string
      */
-    public static function cleanGroups($arr) {
+    public static function cleanGroups($arr, $offset = 10, $end = -2) {
 
         $data = array ();
         foreach ( $arr as $k => $v ) {
-            $val = substr ( $v, 10, - 2 );
+            $val = substr ( $v, $offset, $end );
             $data ["$val"] = $val;
         }
         
@@ -53,9 +53,11 @@ class Helper {
             'ccList' => 'Add to cc-List',
             'bccList' => 'Add to bcc-List'
     );
-    
-    public static final function getMailingListArray(){
+
+    public static final function getMailingListArray() {
+
         return self::$mailingLists;
+    
     }
 
 }

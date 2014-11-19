@@ -91,3 +91,5 @@ Route::post ( 'updateGroup', 'GroupController@updateGroup' );
 
 Route::post('AddToMailingList', 'MailingListController@addNewMail');
 
+Route::post('deleteMails', 'MailingListController@deleteMails');
+

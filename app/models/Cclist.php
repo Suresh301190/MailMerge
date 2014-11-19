@@ -42,5 +42,19 @@ class Cclist extends Eloquent {
         $list->save ();
     
     }
+    
+    public function scopeGetAllMails() {
+    
+        $gname = Input::get ( 'gname' );
+    
+        $mails = Cclist::findMany ( array (
+                'cc_id' => Auth::user ()->id . '_' . $gname
+        ) )->all ( array (
+                'email'
+        ) );
+    
+        return $mails;
+    
+    }
 
 }

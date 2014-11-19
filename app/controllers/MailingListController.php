@@ -29,5 +29,9 @@ class MailingListController extends BaseController {
         ) );
     
     }
+    
+    public function deleteMails(){
+        
+    }
 
 }
