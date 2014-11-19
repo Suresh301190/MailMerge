@@ -32,17 +32,30 @@ class Helper {
 
     /**
      * To clean the array {"group_name":"amazon"} to amazon => amazon
+     *
      * @param unknown $arr
      * @return multitype:string
      */
     public static function cleanGroups($arr) {
-        $data = array();
+
+        $data = array ();
         foreach ( $arr as $k => $v ) {
-            $val = substr($v, 15, -2);
-            $data["$val"] = $val;
+            $val = substr ( $v, 10, - 2 );
+            $data ["$val"] = $val;
         }
         
         return $data;
+    
+    }
+
+    private static $mailingLists = array (
+            'toList' => 'Add to To-List',
+            'ccList' => 'Add to cc-List',
+            'bccList' => 'Add to bcc-List'
+    );
+    
+    public static final function getMailingListArray(){
+        return self::$mailingLists;
     }
 
 }

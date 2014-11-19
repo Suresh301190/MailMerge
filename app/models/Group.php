@@ -15,12 +15,14 @@ class Group extends Eloquent {
 
         $data = array ();
         $data ['gname'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'gname' ) ) );
+        $data ['hr_name'] = Input::get ( 'hr_name' );
+        $data ['company'] = Input::get ( 'company' );
         
         if (self::groupExists ( $data ['gname'] )) {
             $data ['added'] = false;
         }
         else {
-            self::add ( $data ['gname'] );
+            self::add ( $data );
             $data ['added'] = true;
         }
         
@@ -36,18 +38,19 @@ class Group extends Eloquent {
 
     private static function groupExists($group) {
 
-        return DB::table ( 'groups' )->where ( 'gid', '=', Auth::user ()->id )->where ( 'group_name', '=', $group )->count ();
+        return DB::table ( 'groups' )->where ( 'gid', '=', Auth::user ()->id )->where ( 'gname', '=', $group )->count ();
     
     }
 
-    private function add($group) {
+    private function add($data) {
 
-        $id = Auth::user ()->id;
-        DB::table ( 'groups' )->insert ( array (
-                'gid' => Auth::user ()->id,
-                'group_name' => $group,
-                'gid_name' => Auth::user ()->id . "_" . $group
-        ) );
+        $newGroup = new Group ();
+        $newGroup->gid = Auth::user ()->id;
+        $newGroup->gname = $data['gname'];
+        $newGroup->gid_name = Auth::user ()->id . '_' . $data['gname'];
+        $newGroup->hr_name = $data['hr_name'];
+        $newGroup->company = $data['company'];
+        $newGroup->save ();
         
         Cache::forever ( 'isGroupUpdated', true );
     
@@ -60,8 +63,8 @@ class Group extends Eloquent {
          * $groups = Group::findMany ( array (
          * 'gid' => Auth::user ()->id
          * ), array (
-         * 'group_name'
-         * ) )->all ( 'group_name' );
+         * 'gname'
+         * ) )->all ( 'gname' );
          *
          * Cache::forget( Auth::user ()->id . '_Groups' );
          * Cache::add ( Auth::user ()->id . '_Groups', Helper::cleanGroups($groups), 20 );
@@ -74,8 +77,8 @@ class Group extends Eloquent {
         $groups = Group::findMany ( array (
                 'gid' => Auth::user ()->id
         ), array (
-                'group_name'
-        ) )->all ( 'group_name' );
+                'gname'
+        ) )->all ( 'gname' );
         
         return Helper::cleanGroups ( $groups );
     
@@ -89,6 +92,22 @@ class Group extends Eloquent {
         $data ['deleted'] = DB::table ( 'groups' )->where ( 'gid_name', '=', Auth::user ()->id . "_" . $data ['gname'] )->delete () ? true : false;
         
         Cache::forever ( 'isGroupUpdated', true );
+        
+        return $data;
+    
+    }
+
+    public function scopeUpdateGroupName() {
+
+        $data = array ();
+        $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
+        $data ['toUpdate'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'toUpdate' ) ) );
+        $toUpdate = DB::table ( 'groups' )->where ( 'gid_name', '=', Auth::user ()->id . '_' . $data ['gname'] )->update ( array (
+                'gname' => $data ['toUpdate'],
+                'gid_name' => Auth::user ()->id . '_' . $data ['toUpdate']
+        ) );
+        
+        $data ['updated'] = true;
         
         return $data;
     

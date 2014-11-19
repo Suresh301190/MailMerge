@@ -59,14 +59,19 @@ Route::get ( 'groups', function () {
 
 Route::get ( 'lists', function () {
     if (Auth::check ()) {
-        return View::make ( 'dashboard.lists' );
+        return View::make ( 'dashboard.lists', array (
+                'groups' => Group::getAllGroups (),
+                'mlists' => Helper::getMailingListArray()
+        ) );
     }
     return Redirect::to ( 'login' );
 } );
 
 Route::get ( 'send', function () {
     if (Auth::check ()) {
-        return View::make ( 'dashboard.send' );
+        return View::make ( 'dashboard.send', array (
+                'groups' => Group::getAllGroups ()
+        ) );
     }
     return Redirect::to ( 'login' );
 } );
@@ -81,4 +86,8 @@ Route::get ( 'profile', function () {
 Route::post ( 'deleteGroup', 'GroupController@deleteGroup' );
 
 Route::post ( 'addNewGroup', 'GroupController@addNewGroup' );
+
+Route::post ( 'updateGroup', 'GroupController@updateGroup' );
+
+Route::post('AddToMailingList', 'MailingListController@addNewMail');
 

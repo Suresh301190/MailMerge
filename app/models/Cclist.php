@@ -1,0 +1,46 @@
+<?php
+
+class Cclist extends Eloquent {
+
+    public $timestamps = true;
+
+    public $incrementing = false;
+
+    protected $table = 'cclists';
+
+    protected $primaryKey = 'cc_id';
+
+    public function scopeAddMailCcList() {
+
+        $data = array ();
+        $data ['gname'] = Input::get ( 'gname' );
+        $data ['email'] = Input::get ( 'email' );
+        
+        if (self::mailExists ( $data ['gname'], $data ['email'] )) {
+            $data ['added'] = false;
+        }
+        else {
+            self::add ( $data ['gname'], $data ['email'] );
+            $data ['added'] = true;
+        }
+        
+        return $data;
+    
+    }
+
+    private function mailExists($group, $email) {
+
+        return DB::table ( 'ccLists' )->where ( 'cc_id', '=', Auth::user ()->id . '_' . $group )->where ( 'email', '=', $email )->count ();
+    
+    }
+
+    private function add($group, $email) {
+
+        $list = new Cclist();
+        $list->cc_id = Auth::user ()->id . '_' . $group;
+        $list->email = $email;
+        $list->save ();
+    
+    }
+
+}

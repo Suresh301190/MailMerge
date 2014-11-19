@@ -12,17 +12,19 @@ class CreateGroupsTable extends Migration {
     public function up() {
 
         Schema::create ( 'groups', function ($table) {
-        	$table->engine = 'InnoDB';
+            $table->engine = 'InnoDB';
             $table->string ( 'gid', 50 );
-            $table->string ( 'group_name', 50 );
+            $table->string ( 'gname', 50 );
             $table->string ( 'gid_name', 100 )->unique ();
+            $table->string ( 'hr_name', 50 );
+            $table->string ( 'company', 50 );
             // $table->string ( 'cc_list', 50 )->unique ();
             // $table->string ( 'bcc_list', 50 )->unique ();
             $table->timestamps ();
             
             $table->primary ( array (
                     'gid',
-                    'group_name'
+                    'gname'
             ) );
             
             $table->foreign ( 'gid' )->references ( 'id' )->on ( 'users' )->onUpdate ( 'cascade' );

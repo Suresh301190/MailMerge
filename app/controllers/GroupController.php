@@ -11,7 +11,7 @@ class GroupController extends BaseController {
 
         return View::make ( 'dashboard.groups', array (
                 'data' => Group::addGroup (),
-                'groups' => Group::getAllGroups()
+                'groups' => Group::getAllGroups ()
         ) );
     
     }
@@ -28,7 +28,16 @@ class GroupController extends BaseController {
 
         return View::make ( 'dashboard.groups', array (
                 'data' => Group::deleteOne (),
-                'groups' => Group::getAllGroups()
+                'groups' => Group::getAllGroups ()
+        ) );
+    
+    }
+
+    public function updateGroup() {
+
+        return View::make ( 'dashboard.groups', array (
+                'data' => Group::UpdateGroupName (),
+                'groups' => Group::getAllGroups ()
         ) );
     
     }
