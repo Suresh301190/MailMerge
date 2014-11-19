@@ -13,16 +13,16 @@
             <div class="row">
                 {{ Form::open(array('url' => 'addNewGroup')) }}
                 <div class="col-lg-3">{{ Form::text('gname', NULL,
-                    array('class' => 'form-control', 'placeholder' =>
+                    array('class' => 'form-control top-buffer', 'placeholder' =>
                     'Enter Group name' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::text('hr_name', NULL,
-                    array('class' => 'form-control', 'placeholder' =>
+                    array('class' => 'form-control top-buffer', 'placeholder' =>
                     'Enter HR name' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::text('company', NULL,
-                    array('class' => 'form-control', 'placeholder' =>
+                    array('class' => 'form-control top-buffer', 'placeholder' =>
                     'Enter Company name' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::submit('Add Group',
-                    array('class' => 'btn btn-default')) }}</div>
+                    array('class' => 'btn btn-default top-buffer')) }}</div>
                 {{ Form::close() }}
             </div>
         </div>
@@ -36,9 +36,9 @@
             <div class="row">
                 <div class="col-lg-3">{{ Form::select('gname', $groups,
                     'No Group to Delete', array('class' =>
-                    'form-control')) }}</div>
+                    'form-control top-buffer')) }}</div>
                 <div class="col-lg-3">{{ Form::submit('Delete Group',
-                    array('class' => 'btn btn-default')) }}</div>
+                    array('class' => 'btn btn-danger top-buffer')) }}</div>
             </div>
             {{ Form::close() }}
             <!--  -->
@@ -52,13 +52,13 @@
             {{ Form::open(array('url' => 'updateGroup')) }}
             <div class="row">
                 <div class="col-lg-3">{{ Form::text('toUpdate', NULL,
-                    array('class' => 'form-control', 'placeholder' =>
-                    'Enter Group name' ) ) }}</div>
+                    array('class' => 'form-control top-buffer', 'placeholder' =>
+                    'Enter Group name ' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::select('gname', $groups,
                     'No Group to Delete', array('class' =>
-                    'form-control')) }}</div>
+                    'form-control top-buffer')) }}</div>
                 <div class="col-lg-3">{{ Form::submit('Update Group',
-                    array('class' => 'btn btn-default')) }}</div>
+                    array('class' => 'btn btn-warning top-buffer')) }}</div>
             </div>
             {{ Form::close() }}
             <!--  -->

@@ -49,9 +49,9 @@ class Helper {
     }
 
     private static $mailingLists = array (
-            'toList' => 'Add to To-List',
-            'ccList' => 'Add to cc-List',
-            'bccList' => 'Add to bcc-List'
+            'toList' => 'to-List',
+            'ccList' => 'cc-List',
+            'bccList' => 'bcc-List'
     );
 
     public static final function getMailingListArray() {

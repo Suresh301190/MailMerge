@@ -58,7 +58,7 @@
                     'No Group to Delete', array('class' =>
                     'form-control')) }}</div>
                 <div class="col-lg-4">{{ Form::submit('Get list',
-                    array('class' => 'btn btn-default')) }}</div>
+                    array('class' => 'btn btn-warning')) }}</div>
             </div>
             {{ Form::close() }}
             <!--  -->

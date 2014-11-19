@@ -67,6 +67,11 @@ class Cclist extends Eloquent {
             }
         }
         
+        if (! count ( $emailsToDelete )){
+            $data ['deleted'] = false;
+            return $data;
+        }
+        
         $data ['deleted'] = DB::table ( 'cclists' )->where ( 'cc_id', '=', Group::getUID () . '_' . $input ['gname'] )->whereIn ( 'email', $emailsToDelete )->delete ();
         $data ['emailsToDelete'] = $emailsToDelete;
         return $data;

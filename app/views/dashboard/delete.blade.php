@@ -19,9 +19,9 @@
                 @foreach ($toDelete as $k => $v)
                     @if($i %3 == 0)
                         {{ '<div class="row">
-                    ' }} @endif {{ '<label>' }} {{ Form::checkbox($k,
+                    ' }} @endif {{ '<div class="checkbox"><label>' }} {{ Form::checkbox($k,
                         $v, NULL, array( 'class' => 'checkbox-inline' ))
-                        }} {{ $v }} {{ '</label>' }}
+                        }} {{ $v }} {{ '</label></div>' }}
                     <?php $i = $i + 1; ?>
                     @if($i %3 == 0)
                         {{ '</div>

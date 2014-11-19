@@ -95,3 +95,5 @@ Route::post('getMailsToDelete', 'MailingListController@getMails');
 
 Route::post('deleteMails', 'MailingListController@deleteMails');
 
+Route::post('sendMail', 'EmailController@send');
+

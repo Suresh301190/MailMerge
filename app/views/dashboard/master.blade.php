@@ -28,6 +28,16 @@
 
 	    <!-- Custom Fonts -->
 	    {{HTML::style('font-awesome-4.1.0/css/font-awesome.min.css')}}
+	    
+	    <style type="text/css">
+	    .top-buffer{
+	       margin-top:10px;
+	       margin-bottom:10px;
+	    }
+	    </style>
+	    
+	    <!-- To place CKEditor script -->
+	    @yield('ckeditor')
 	</head>
 	<body>
 		<div id="wrapper">
