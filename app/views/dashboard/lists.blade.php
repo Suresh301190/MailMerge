@@ -46,7 +46,7 @@
         <div class="panel panel-default col-lg-9">
             <div class="panel-heading">Delete Email</div>
             <!-- Form Starts -->
-            {{ Form::open(array('url' => 'deleteMails')) }}
+            {{ Form::open(array('url' => 'getMailsToDelete')) }}
             <div class="row">
                 <br>
             </div>
@@ -60,21 +60,30 @@
                 <div class="col-lg-4">{{ Form::submit('Get list',
                     array('class' => 'btn btn-default')) }}</div>
             </div>
-
             {{ Form::close() }}
             <!--  -->
         </div>
     </div>
-    
+
     @yield('showMails')
 
     <!-- To Display if group was added -->
     @if(isset($data['added']) and $data['added'])
-    <div class="alert alert-success">E-Mail {{ $data['email'] }} was
-        added Successfully to Group {{ $data['gname'] }}</div>
+    <div class="alert alert-success col-lg-9">E-Mail {{ $data['email']
+        }} was added Successfully to Group {{ $data['gname'] }}</div>
     @elseif(isset($data['added']) and ! $data['added'])
-    <div class="alert alert-success">E-Mail {{ $data['email'] }} Already
-        Exists</div>
+    <div class="alert alert-danger col-lg-9">@if(! $data['empty'])
+        E-Mail {{ $data['email'] }} Already Exists @else Invalid Group
+        Name @endif</div>
+    @endif
+
+    <!-- To Display if Emails were was added -->
+    @if(isset($data['deleted']) and $data['deleted'])
+    <div class="alert alert-success col-lg-9">E-Mails deleted
+        Successfully</div>
+    @elseif(isset($data['deleted']) and ! $data['deleted'])
+    <div class="alert alert-danger col-lg-9">No E-Mails were
+        Selected/Exists</div>
     @endif
 </div>
 @stop

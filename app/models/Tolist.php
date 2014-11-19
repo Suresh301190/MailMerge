@@ -15,8 +15,8 @@ class Tolist extends Eloquent {
         $data = array ();
         $data ['gname'] = Input::get ( 'gname' );
         $data ['email'] = Input::get ( 'email' );
-        
-        if (self::mailExists ( $data ['gname'], $data ['email'] )) {
+        $data ['empty'] = $data ['gname'] === "" || $data ['email'] === "";
+        if ($data ['empty'] || self::mailExists ( $data ['gname'], $data ['email'] )) {
             $data ['added'] = false;
         }
         else {
@@ -42,18 +42,35 @@ class Tolist extends Eloquent {
         $list->save ();
     
     }
-    
+
     public function scopeGetAllMails() {
-    
+
         $gname = Input::get ( 'gname' );
-    
+        
         $mails = Tolist::findMany ( array (
                 'to_id' => Auth::user ()->id . '_' . $gname
-        ) )->all ( array (
+        ), array (
                 'email'
-        ) );
+        ) )->all ( 'email' );
+        
+        return Helper::cleanGroups ( $mails, '|' );
     
-        return $mails;
+    }
+
+    public function scopeDeleteMails() {
+
+        $input = Input::all ();
+        $emailsToDelete = array ();
+        $data = array ();
+        foreach ( $input as $k => $v ) {
+            if ($k [0] == '|') {
+                $emailsToDelete ["$v"] = $v;
+            }
+        }
+        
+        $data ['deleted'] = DB::table ( 'tolists' )->where ( 'to_id', '=', Group::getUID () . '_' . $input ['gname'] )->whereIn ( 'email', $emailsToDelete )->delete ();
+        $data ['emailsToDelete'] = $emailsToDelete;
+        return $data;
     
     }
 

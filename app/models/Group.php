@@ -16,6 +16,7 @@ class Group extends Eloquent {
      * @gname group name
      * @hr_name HR person Name
      * @company Company name
+     *
      * @return multitype:boolean mixed
      */
     public function scopeAddGroup() {
@@ -25,7 +26,9 @@ class Group extends Eloquent {
         $data ['hr_name'] = Input::get ( 'hr_name' );
         $data ['company'] = Input::get ( 'company' );
         
-        if (self::groupExists ( $data ['gname'] )) {
+        $data ['empty'] = $data ['gname'] === "" || $data ['hr_name'] === "" || $data ['company'] === "";
+        
+        if ($data ['empty'] || self::groupExists ( $data ['gname'] )) {
             $data ['added'] = false;
         }
         else {
@@ -45,7 +48,7 @@ class Group extends Eloquent {
 
     private static function groupExists($group) {
 
-        return DB::table ( 'groups' )->where ( 'gid', '=', self::getUID() )->where ( 'gname', '=', $group )->count ();
+        return DB::table ( 'groups' )->where ( 'gid', '=', self::getUID () )->where ( 'gname', '=', $group )->count ();
     
     }
 
@@ -57,9 +60,9 @@ class Group extends Eloquent {
     private function add($data) {
 
         $newGroup = new Group ();
-        $newGroup->gid = self::getUID();
+        $newGroup->gid = self::getUID ();
         $newGroup->gname = $data ['gname'];
-        $newGroup->gid_name = self::getUID() . '_' . $data ['gname'];
+        $newGroup->gid_name = self::getUID () . '_' . $data ['gname'];
         $newGroup->hr_name = $data ['hr_name'];
         $newGroup->company = $data ['company'];
         $newGroup->save ();
@@ -76,19 +79,19 @@ class Group extends Eloquent {
      */
     public function scopeGetAllGroups() {
 
-        if (! Cache::has ( self::getUID() . '_isGroupUpdated' )) {
+        if (! Cache::has ( self::getUID () . '_isGroupUpdated' )) {
             $groups = Group::findMany ( array (
-                    'gid' => self::getUID()
+                    'gid' => self::getUID ()
             ), array (
                     'gname'
             ) )->all ( 'gname' );
             
             self::setGroupUpdated ();
-            Cache::forever ( self::getUID() . '_isGroupUpdated', Helper::cleanGroups ( $groups ) );
+            Cache::forever ( self::getUID () . '_isGroupUpdated', Helper::cleanGroups ( $groups ) );
         }
         
-        return Cache::get ( self::getUID() . '_isGroupUpdated' );
-     // Helper::cleanGroups ( $groups );
+        return Cache::get ( self::getUID () . '_isGroupUpdated' );
+        // Helper::cleanGroups ( $groups );
     }
 
     /**
@@ -102,7 +105,7 @@ class Group extends Eloquent {
         $data = array ();
         $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
         
-        $data ['deleted'] = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID() . "_" . $data ['gname'] )->delete () ? true : false;
+        $data ['deleted'] = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID () . "_" . $data ['gname'] )->delete () ? true : false;
         
         self::setGroupUpdated ();
         
@@ -122,9 +125,13 @@ class Group extends Eloquent {
         $data = array ();
         $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
         $data ['toUpdate'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'toUpdate' ) ) );
-        $toUpdate = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID() . '_' . $data ['gname'] )->update ( array (
+        $data ['empty'] = $data['toUpdate'] === "";
+        
+        if($data['empty'])
+            return $data;
+        $toUpdate = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID () . '_' . $data ['gname'] )->update ( array (
                 'gname' => $data ['toUpdate'],
-                'gid_name' => self::getUID() . '_' . $data ['toUpdate']
+                'gid_name' => self::getUID () . '_' . $data ['toUpdate']
         ) );
         
         $data ['updated'] = true;
@@ -139,11 +146,11 @@ class Group extends Eloquent {
      */
     private static function setGroupUpdated() {
 
-        Cache::forget ( self::getUID() . '_isGroupUpdated' );
+        Cache::forget ( self::getUID () . '_isGroupUpdated' );
     
     }
 
-    private static function getUID() {
+    public static function getUID() {
 
         return Auth::user ()->id;
     

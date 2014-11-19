@@ -36,12 +36,12 @@ class Helper {
      * @param unknown $arr
      * @return multitype:string
      */
-    public static function cleanGroups($arr, $offset = 10, $end = -2) {
+    public static function cleanGroups($arr, $slug = '', $offset = 10, $end = -2) {
 
         $data = array ();
         foreach ( $arr as $k => $v ) {
             $val = substr ( $v, $offset, $end );
-            $data ["$val"] = $val;
+            $data ["$slug$val"] = $val;
         }
         
         return $data;

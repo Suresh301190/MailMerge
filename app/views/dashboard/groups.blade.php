@@ -69,33 +69,31 @@
 
     <!-- To Display if group was added -->
     @if(isset($data['added']) and $data['added'])
-    <div class="alert alert-success">Group {{ $data['gname'] }} Added
-        Successfully</div>
+    <div class="alert alert-success col-lg-9">Group {{ $data['gname'] }}
+        Added Successfully</div>
     @elseif(isset($data['added']) and ! $data['added'])
-    <div class="alert alert-success">Group {{ $data['gname'] }} Already
-        Exists</div>
+    <div class="alert alert-danger col-lg-9">@if(! $data['empty']) Group
+        {{ $data['gname'] }} Already Exists @else {{ 'Invalid Names' }}
+        @endif</div>
     @endif
 
     <!-- To Display if group was deleted -->
     @if(isset($data['deleted']) and $data['deleted'])
-    <div class="alert alert-success">Group {{ $data['gname'] }} Deleted
-        Successfully</div>
+    <div class="alert alert-success col-lg-9">Group {{ $data['gname'] }}
+        Deleted Successfully</div>
     @elseif(isset($data['deleted']) and ! $data['deleted'])
-    <div class="alert alert-success">Group {{ $data['gname'] }} Doesn't
-        Exists</div>
+    <div class="alert alert-danger col-lg-9">Group {{ $data['gname'] }}
+        Doesn't Exists</div>
     @endif
 
     <!-- To Display if group was Updated -->
     @if(isset($data['updated']) and $data['updated'])
-    <div class="alert alert-success">Group {{ $data['gname'] }} Updated
-        to {{ $data['toUpdate'] }}</div>
+    <div class="alert alert-success col-lg-9">Group {{ $data['gname'] }}
+        Updated to {{ $data['toUpdate'] }}</div>
+    @elseif(isset($data['empty']))
+    <div class="alert alert-danger col-lg-9">Group name can't be Empty</div>
     @endif
-    
-    <!-- To Display Error Messages -->
-    @if(isset($validator))
-        @foreach ($validator->messages->all() as $message)
-            {{ '<p>$message</p>' }}
-        @endforeach
-    @endif
+
+
 </div>
 @stop

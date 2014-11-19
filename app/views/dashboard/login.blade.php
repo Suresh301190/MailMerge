@@ -27,6 +27,13 @@
                         <!-- Change this to a button or input when using this as a form -->
                         <a href="{{ $authUrl }}"
                             class="btn btn-lg btn-success btn-block">Login</a>
+                        <div class="panel-body">
+                            <a
+                                class="btn btn-block btn-social btn-google-plus">
+                                <i class="fa fa-google-plus"></i> Sign
+                                in with Google
+                            </a>
+                        </div>
                     </fieldset>
                 </form>
             </div>
