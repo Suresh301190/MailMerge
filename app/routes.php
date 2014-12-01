@@ -61,7 +61,7 @@ Route::get ( 'lists', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.lists', array (
                 'groups' => Group::getAllGroups (),
-                'mlists' => Helper::getMailingListArray ()
+                'mlists' => Email::getMailingListArray ()
         ) );
     }
     return Redirect::to ( 'login' );
@@ -71,7 +71,7 @@ Route::get ( 'send', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.send', array (
                 'groups' => Group::getAllGroups (),
-                'content' => Helper::getSendUseage()
+                'content' => Email::getSendUseage()
         ) );
     }
     return Redirect::to ( 'login' );
@@ -87,7 +87,7 @@ Route::get ( 'profile', function () {
 Route::get ( 'managetemplate', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.managetemplate', array (
-                'content' => Helper::getModifyUseage ()
+                'content' => Email::getModifyUseage ()
         ) );
     }
     return Redirect::to ( 'login' );
@@ -112,19 +112,19 @@ Route::post ( 'getContent', function () {
     
     if (Input::get ( 'template-modify', 0 ) == 0) {
         return View::make ( 'dashboard.send', array (
-                'content' => Helper::getTemplateContent ( Input::get ( 'TID' ) )
+                'content' => Email::getTemplateContent ( Input::get ( 'TID' ) )
         ) );
     }
     else {
         return View::make ( 'dashboard.managetemplate', array (
-                'content' => Helper::getTemplateContent ( Input::get ( 'TID' ) )
+                'content' => Email::getTemplateContent ( Input::get ( 'TID' ) )
         ) );
     }
 } );
 
 Route::post ( 'saveTemplate', function () {
     
-    $data = Helper::putTemplateContents ( Input::get ( 'TID' ), Input::get ( 'content' ) );
+    $data = Email::putTemplateContents ( Input::get ( 'TID' ), Input::get ( 'content' ) );
     
     return View::make ( 'dashboard.manageTemplate', array (
             'content' => $data ['content'],
