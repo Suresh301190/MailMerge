@@ -3,28 +3,22 @@ Templates' }} @stop @section('template-form')
 <div id="template-form">
     {{ Form::open(array('url' => 'sendMail')) }}
     <div class="row">
-        <div class="col-lg-8">{{ Form::text('subject', NULL,
-            array('class' => 'form-control top-buffer', 'placeholder' =>
-            'Subject') ) }}</div>
-        <div class="checkbox col-lg-4">
-            {{ '<label>' }} {{ Form::checkbox('ccAdmin',
-                'admin-placement@iiitd.ac.in', NULL, array('class' =>
-                'checkbox-inline top-buffer', 'placeholder' =>
-                'Subject') ) }}{{ 'cc Admin</label>' }} {{ '<label>' }}
-                {{ Form::checkbox('ccAdmin', 'scp@iiitd.ac.in', NULL,
-                array('class' => 'checkbox-inline top-buffer',
-                'placeholder' => 'Subject') ) }}{{ 'cc SCP</label>' }}
-        </div>
+        <div class="col-lg-4">{{ Form::select('TID', array('invite' =>
+            'Select Invite Template', 'followUp' => 'Follow Up
+            Template', 'confirm' => 'Select Confirmation Template',
+            'custom1' => 'Select custom1 Template', 'custom2' => 'Select
+            custom2 Template' ), NULL, array('class' => 'form-control
+            top-buffer')) }}</div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             {{ Form::textarea('editor', $content, array( 'id' =>
-            'content', 'class' => 'form-control top-buffer') ) }}
+            'content', 'class' => 'form-control top-buffer', 'height' => '600px') ) }}
             <script type="text/javascript">CKEDITOR.replace( 'content' ); </script>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 top-buffer">{{ Form::submit('Send',
+        <div class="col-lg-4 top-buffer">{{ Form::submit('Save',
             array('class' => 'btn btn-primary ')) }}</div>
     </div>
     {{ Form::close() }}
@@ -32,7 +26,7 @@ Templates' }} @stop @section('template-form')
 @stop
 
 @section('isModify')
-{{ Form::radio('template-modify', '0', true, array('class' => 'hidden')) }}
+{{ Form::radio('template-modify', '1', true, array('class' => 'hidden')) }}
 @stop
 
 @section('invite')

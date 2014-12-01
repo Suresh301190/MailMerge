@@ -19,6 +19,8 @@
                     class="fa fa-edit fa-fw"></i> Manage Groups</a></li>
             <li><a href="{{{ URL::to('lists') }}}"><i
                     class="fa fa-edit fa-fw"></i> Manage Mailing Lists</a></li>
+            <li><a href="{{{ URL::to('managetemplate') }}}"><i
+                    class="fa fa-edit fa-fw"></i> Manage Templates</a></li>
             <li><a href="{{{ URL::to('send') }}}"><i
                     class="fa fa-edit fa-fw"></i> Send Mails</a></li>
         </ul>

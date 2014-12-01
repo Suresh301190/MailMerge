@@ -61,7 +61,7 @@ Route::get ( 'lists', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.lists', array (
                 'groups' => Group::getAllGroups (),
-                'mlists' => Helper::getMailingListArray()
+                'mlists' => Helper::getMailingListArray ()
         ) );
     }
     return Redirect::to ( 'login' );
@@ -70,7 +70,8 @@ Route::get ( 'lists', function () {
 Route::get ( 'send', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.send', array (
-                'groups' => Group::getAllGroups ()
+                'groups' => Group::getAllGroups (),
+                'content' => ''
         ) );
     }
     return Redirect::to ( 'login' );
@@ -83,17 +84,39 @@ Route::get ( 'profile', function () {
     return Redirect::to ( 'login' );
 } );
 
+Route::get ( 'managetemplate', function () {
+    if (Auth::check ()) {
+        return View::make ( 'dashboard.managetemplate', array (
+                'content' => ''
+        ) );
+    }
+    return Redirect::to ( 'login' );
+} );
+
 Route::post ( 'deleteGroup', 'GroupController@deleteGroup' );
 
 Route::post ( 'addNewGroup', 'GroupController@addNewGroup' );
 
 Route::post ( 'updateGroup', 'GroupController@updateGroup' );
 
-Route::post('AddToMailingList', 'MailingListController@addNewMail');
+Route::post ( 'AddToMailingList', 'MailingListController@addNewMail' );
 
-Route::post('getMailsToDelete', 'MailingListController@getMails');
+Route::post ( 'getMailsToDelete', 'MailingListController@getMails' );
 
-Route::post('deleteMails', 'MailingListController@deleteMails');
+Route::post ( 'deleteMails', 'MailingListController@deleteMails' );
 
-Route::post('sendMail', 'EmailController@send');
+Route::post ( 'sendMail', 'EmailController@send' );
 
+Route::post ( 'getContent', function () {
+    
+    if (Input::get ( 'template-modify', 0 ) == 0) {
+        return View::make ( 'dashboard.send', array (
+                'content' => 'In SendMails'
+        ) );
+    }
+    else {
+        return View::make ( 'dashboard.managetemplate', array (
+                'content' => 'In Templates'
+        ) );
+    }
+} );

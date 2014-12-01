@@ -1,4 +1,4 @@
-@extends('dashboard.master') 
+@extends('dashboard.master')
 
 @section('navigation')
 <!-- Navigation -->
@@ -24,8 +24,6 @@
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="{{{ URL::to('profile') }}}"><i class="fa fa-user fa-fw"></i> User
                         Profile</a></li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i>
-                        Settings</a></li>
                 <li class="divider"></li>
                 <li><a href="{{{ URL::to('login') }}}"><i
                         class="fa fa-sign-out fa-fw"></i> Logout</a></li>

@@ -11,6 +11,13 @@ class Group extends Eloquent {
 
     protected $primaryKey = 'gid';
 
+    private static $state = array (
+            'invite',
+            'inviteSent',
+            'followUpSent',
+            'confirmed'
+    );
+
     /**
      * To add group if doesn't exists already Receives the data from HTTP POST
      * @gname group name
@@ -65,6 +72,8 @@ class Group extends Eloquent {
         $newGroup->gid_name = self::getUID () . '_' . $data ['gname'];
         $newGroup->hr_name = $data ['hr_name'];
         $newGroup->company = $data ['company'];
+        $newGroup->state = self::$state[0];
+        
         $newGroup->save ();
         
         self::setGroupUpdated ();
@@ -125,9 +134,9 @@ class Group extends Eloquent {
         $data = array ();
         $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
         $data ['toUpdate'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'toUpdate' ) ) );
-        $data ['empty'] = $data['toUpdate'] === "";
+        $data ['empty'] = $data ['toUpdate'] === "";
         
-        if($data['empty'])
+        if ($data ['empty'])
             return $data;
         $toUpdate = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID () . '_' . $data ['gname'] )->update ( array (
                 'gname' => $data ['toUpdate'],

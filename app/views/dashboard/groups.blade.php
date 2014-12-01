@@ -13,14 +13,14 @@
             <div class="row">
                 {{ Form::open(array('url' => 'addNewGroup')) }}
                 <div class="col-lg-3">{{ Form::text('gname', NULL,
-                    array('class' => 'form-control top-buffer', 'placeholder' =>
-                    'Enter Group name' ) ) }}</div>
+                    array('class' => 'form-control top-buffer',
+                    'placeholder' => 'Enter Group name' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::text('hr_name', NULL,
-                    array('class' => 'form-control top-buffer', 'placeholder' =>
-                    'Enter HR name' ) ) }}</div>
+                    array('class' => 'form-control top-buffer',
+                    'placeholder' => 'Enter HR name' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::text('company', NULL,
-                    array('class' => 'form-control top-buffer', 'placeholder' =>
-                    'Enter Company name' ) ) }}</div>
+                    array('class' => 'form-control top-buffer',
+                    'placeholder' => 'Enter Company name' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::submit('Add Group',
                     array('class' => 'btn btn-default top-buffer')) }}</div>
                 {{ Form::close() }}
@@ -35,8 +35,8 @@
             {{ Form::open(array('url' => 'deleteGroup')) }}
             <div class="row">
                 <div class="col-lg-3">{{ Form::select('gname', $groups,
-                    'No Group to Delete', array('class' =>
-                    'form-control top-buffer')) }}</div>
+                    'No Group to Delete', array('class' => 'form-control
+                    top-buffer')) }}</div>
                 <div class="col-lg-3">{{ Form::submit('Delete Group',
                     array('class' => 'btn btn-danger top-buffer')) }}</div>
             </div>
@@ -47,16 +47,16 @@
 
     <div class="row">
         <div class="panel panel-default col-lg-9">
-            <div class="panel-heading">Update Group</div>
+            <div class="panel-heading">Update Group Name</div>
             <!-- Form starts update group name -->
             {{ Form::open(array('url' => 'updateGroup')) }}
             <div class="row">
                 <div class="col-lg-3">{{ Form::text('toUpdate', NULL,
-                    array('class' => 'form-control top-buffer', 'placeholder' =>
-                    'Enter Group name ' ) ) }}</div>
+                    array('class' => 'form-control top-buffer',
+                    'placeholder' => 'Enter Group name ' ) ) }}</div>
                 <div class="col-lg-3">{{ Form::select('gname', $groups,
-                    'No Group to Delete', array('class' =>
-                    'form-control top-buffer')) }}</div>
+                    'No Group to Delete', array('class' => 'form-control
+                    top-buffer')) }}</div>
                 <div class="col-lg-3">{{ Form::submit('Update Group',
                     array('class' => 'btn btn-warning top-buffer')) }}</div>
             </div>
@@ -90,7 +90,7 @@
     @if(isset($data['updated']) and $data['updated'])
     <div class="alert alert-success col-lg-9">Group {{ $data['gname'] }}
         Updated to {{ $data['toUpdate'] }}</div>
-    @elseif(isset($data['empty']))
+    @elseif(isset($data['empty']) && $data['empty'])
     <div class="alert alert-danger col-lg-9">Group name can't be Empty</div>
     @endif
 

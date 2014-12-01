@@ -59,6 +59,8 @@ class Helper {
         return self::$mailingLists;
     
     }
+    
+    public function ($)
 
 }
 ?>

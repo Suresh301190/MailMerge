@@ -13,7 +13,7 @@ class CreateCcListTable extends Migration {
 
         Schema::create ( 'cclists', function ($table) {
             $table->engine = 'InnoDB';
-            $table->string ( 'cc_id', 100 )->primary ();
+            $table->string ( 'cc_id', 100 );
             $table->foreign ( 'cc_id' )->references ( 'gid_name' )->on ( 'groups' )->onUpdate ( 'cascade' )->onDelete ( 'cascade' );
             $table->string ( 'email', 50 );
             $table->timestamps ();
