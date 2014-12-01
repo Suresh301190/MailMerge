@@ -4,7 +4,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Compose New Mail</h1>
+            <h1 class="page-header">@yield('page-header')</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -17,9 +17,8 @@
         </div>
         <div class="col-lg-3 pull-right">
             <div class="row">
-                {{ Form::open(array('url' => 'getContent')) }}
-                @yield('isModify')
-                @yield('invite')
+                {{ Form::open(array('url' => 'getContent', 'id' =>
+                'invite')) }} @yield('isModify') @yield('invite')
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -32,7 +31,8 @@
                         </div>
                     </div>
                     <button type="submit" value="Save"
-                        class="btn btn-info btn-block btn-xs btn-outline">
+                        class="btn btn-info btn-block btn-xs btn-outline"
+                        form="invite">
                         <div class="panel-footer">
                             <span class="pull-left">Select</span> <span
                                 class="pull-right"><i
@@ -41,11 +41,11 @@
                         </div>
                     </button>
                 </div>
+                {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent')) }}
-                @yield('isModify')
-                @yield('follow')
+                {{ Form::open(array('url' => 'getContent', 'id' =>
+                'follow')) }} @yield('isModify') @yield('follow')
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
@@ -58,7 +58,8 @@
                         </div>
                     </div>
                     <button type="submit" value="Save"
-                        class="btn btn-info btn-block btn-xs btn-outline">
+                        class="btn btn-info btn-block btn-xs btn-outline"
+                        form="follow">
                         <div class="panel-footer">
                             <span class="pull-left">Select</span> <span
                                 class="pull-right"><i
@@ -67,11 +68,11 @@
                         </div>
                     </button>
                 </div>
+                {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent')) }}
-                @yield('isModify')
-                @yield('confirm')
+                {{ Form::open(array('url' => 'getContent', 'id' =>
+                'confirm')) }} @yield('isModify') @yield('confirm')
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
                         <div class="row">
@@ -84,7 +85,8 @@
                         </div>
                     </div>
                     <button type="submit" value="Save"
-                        class="btn btn-info btn-block btn-xs btn-outline">
+                        class="btn btn-info btn-block btn-xs btn-outline"
+                        form="confirm">
                         <div class="panel-footer">
                             <span class="pull-left">Select</span> <span
                                 class="pull-right"><i
@@ -93,11 +95,11 @@
                         </div>
                     </button>
                 </div>
+                {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent')) }}
-                @yield('isModify')
-                @yield('custom1')
+                {{ Form::open(array('url' => 'getContent', 'id' =>
+                'custom1')) }} @yield('isModify') @yield('custom1')
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -110,7 +112,8 @@
                         </div>
                     </div>
                     <button type="submit" value="Save"
-                        class="btn btn-info btn-block btn-xs btn-outline">
+                        class="btn btn-info btn-block btn-xs btn-outline"
+                        form="custom1">
                         <div class="panel-footer">
                             <span class="pull-left">Select</span> <span
                                 class="pull-right"><i
@@ -119,11 +122,11 @@
                         </div>
                     </button>
                 </div>
+                {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent')) }}
-                @yield('isModify')
-                @yield('custom2')
+                {{ Form::open(array('url' => 'getContent', 'id' =>
+                'custom2')) }} @yield('isModify') @yield('custom2')
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
@@ -136,7 +139,8 @@
                         </div>
                     </div>
                     <button type="submit" value="Save"
-                        class="btn btn-info btn-block btn-xs btn-outline">
+                        class="btn btn-info btn-block btn-xs btn-outline"
+                        form="custom2">
                         <div class="panel-footer">
                             <span class="pull-left">Select</span> <span
                                 class="pull-right"><i
@@ -145,8 +149,10 @@
                         </div>
                     </button>
                 </div>
+                {{ Form::close() }}
             </div>
         </div>
+        @yield('status')
     </div>
 </div>
 @stop
