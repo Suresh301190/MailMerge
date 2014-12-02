@@ -1,5 +1,4 @@
 <?php
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateGroupsTable extends Migration {
@@ -18,7 +17,7 @@ class CreateGroupsTable extends Migration {
             $table->string ( 'gid_name', 100 )->unique ();
             $table->string ( 'hr_name', 50 );
             $table->string ( 'company', 50 );
-            $table->enum ('state', array('invite', 'inviteSent', 'followUpSent', 'confirmed'));
+            $table->enum ('state', array('invite', 'follow', 'confirm'));
             // $table->string ( 'cc_list', 50 )->unique ();
             // $table->string ( 'bcc_list', 50 )->unique ();
             $table->timestamps ();

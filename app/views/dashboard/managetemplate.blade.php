@@ -1,4 +1,4 @@
-@extends('dashboard.template') @section('page-header') {{ 'Manage
+@extends('dashboard.rightbar') @section('page-header') {{ 'Manage
 Templates' }} @stop @section('template-header') {{ 'Manage Templates' }}
 @stop @section('template-form')
 <div id="template-form">
@@ -17,13 +17,13 @@ Templates' }} @stop @section('template-header') {{ 'Manage Templates' }}
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert"
                     aria-hidden="true">×</button>
-                Template {{ $type }} Successfully Updated
+                {{ $message }}
             </div>
             @elseif(isset($success) && !$success)
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert"
                     aria-hidden="true">×</button>
-                Select a Template to Save
+                {{ $message }}
             </div>
             @endif
         </div>

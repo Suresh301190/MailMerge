@@ -24,7 +24,7 @@ class MailingListController extends BaseController {
         
         return View::make ( 'dashboard.lists', array (
                 'groups' => Group::getAllGroups (),
-                'mlists' => Helper::getMailingListArray (),
+                'mlists' => Email::getMailingListArray (),
                 'data' => $data
         ) );
     
@@ -47,7 +47,7 @@ class MailingListController extends BaseController {
         
         return View::make ( 'dashboard.delete', array (
                 'groups' => Group::getAllGroups (),
-                'mlists' => Helper::getMailingListArray (),
+                'mlists' => Email::getMailingListArray (),
                 'toDelete' => $data
         ) );
     

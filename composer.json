@@ -6,7 +6,9 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"themonkeys/laravel-google-auth": "dev-master"
+		"themonkeys/laravel-google-auth": "dev-master",
+		"barryvdh/laravel-ide-helper": "~1.11",
+		"doctrine/dbal": "~2.4"
 	},
 	"autoload": {
 		"classmap": [
@@ -26,6 +28,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
+            "php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [

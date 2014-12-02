@@ -1,4 +1,4 @@
-@extends('dashboard.template') @section('page-header') {{ 'Compose New
+@extends('dashboard.rightbar') @section('page-header') {{ 'Compose New
 Mail' }} @stop @section('template-header') {{ 'Manage Templates' }}
 @stop @section('template-form')
 <div id="template-form">
@@ -26,17 +26,37 @@ Mail' }} @stop @section('template-header') {{ 'Manage Templates' }}
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 top-buffer">{{ Form::submit('Send',
+        <div class="col-lg-3 top-buffer">{{ Form::submit('Send',
             array('class' => 'btn btn-primary ')) }}</div>
+        @foreach(Group::getStatesArray() as $status)
+            {{ '<div class="col-lg-3 form-group">' }}
+            @foreach($groupsByStatus[$status] as $group)
+                {{ '<div class="checkbox"><label>' }}
+                <input type="checkbox" value="{{{ $group }}}">{{ $group }}
+                {{ '</label></div>' }}
+            @endforeach
+            {{ '</div>' }}
+        @endforeach
+    </div>
+    <!-- Add the Send Mail Checkboxes -->
+    <div class="row">
     </div>
     {{ Form::close() }}
 </div>
-@stop @section('isModify') {{ Form::radio('template-modify', '1', true,
-array('class' => 'hidden')) }} @stop @section('invite') {{
-Form::radio('TID', 'invite', true, array('class' => 'hidden')) }} @stop
-@section('follow') {{ Form::radio('TID', 'follow', true, array('class'
-=> 'hidden')) }} @stop @section('confirm') {{ Form::radio('TID',
-'confirm', true, array('class' => 'hidden')) }} @stop @section('custom')
+@stop @section('isModify')
+{{ Form::radio('template-modify', '0', true, array('class' => 'hidden')) }}
+@stop
+@section('invite')
+{{Form::radio('TID', 'invite', true, array('class' => 'hidden')) }}
+@stop
+@section('follow')
+{{ Form::radio('TID', 'follow', true, array('class'=> 'hidden')) }}
+@stop
+@section('confirm')
+{{ Form::radio('TID','confirm', true, array('class' => 'hidden')) }}
+@stop @section('custom')
 {{ Form::radio('TID', 'custom1', true, array('class' => 'hidden')) }}
-@stop @section('custom2') {{ Form::radio('TID', 'custom2', true,
-array('class' => 'hidden')) }} @stop
+@stop
+@section('custom2')
+{{ Form::radio('TID', 'custom2', true,array('class' => 'hidden')) }}
+@stop

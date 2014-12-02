@@ -6,4 +6,4 @@
 
 <p>Note: Their status will be automatically updated to the corresponding next phase i.e invite --&#62 follow Up --&#62 confirmation</p>
 
-<p>Please Make sure you have the pattern __HR__ and __COMPANY__ in the document these will be replaced by the values set by you when setting up groups before the&nbsp;a mail is sent.</p>
+<p>Please Make sure you have the pattern %HR% and %COMPANY% in the document these will be replaced by the values set by you when setting up groups before the&nbsp;a mail is sent.</p>

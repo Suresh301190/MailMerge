@@ -125,8 +125,8 @@
                 {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent', 'id' =>
-                'custom2')) }} @yield('isModify') @yield('custom2')
+                {{ Form::open(array('url' => 'getContent', 'id' => 'custom2')) }}
+                @yield('isModify') @yield('custom2')
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
@@ -154,5 +154,7 @@
         </div>
         @yield('status')
     </div>
+    @if(isset($groupsByStatus))
+    <?php Helper::arrayPrettyPrint($groupsByStatus, 0) ?> @endif
 </div>
 @stop

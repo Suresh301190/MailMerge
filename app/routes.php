@@ -71,7 +71,8 @@ Route::get ( 'send', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.send', array (
                 'groups' => Group::getAllGroups (),
-                'content' => Email::getSendUseage()
+                'content' => Template::getSendUsage(),
+                'groupsByStatus' => Group::getAllGroupByStatus()
         ) );
     }
     return Redirect::to ( 'login' );
@@ -87,7 +88,7 @@ Route::get ( 'profile', function () {
 Route::get ( 'managetemplate', function () {
     if (Auth::check ()) {
         return View::make ( 'dashboard.managetemplate', array (
-                'content' => Email::getModifyUseage ()
+                'content' => Template::getModifyUsage ()
         ) );
     }
     return Redirect::to ( 'login' );
@@ -108,27 +109,25 @@ Route::post ( 'deleteMails', 'MailingListController@deleteMails' );
 Route::post ( 'sendMail', 'EmailController@send' );
 
 Route::post ( 'getContent', function () {
-    // var_dump(Input::get('template_type'));
-    
     if (Input::get ( 'template-modify', 0 ) == 0) {
         return View::make ( 'dashboard.send', array (
-                'content' => Email::getTemplateContent ( Input::get ( 'TID' ) )
+                'content' => Template::getTemplateContent ( Input::get ( 'TID' ) )
         ) );
     }
     else {
         return View::make ( 'dashboard.managetemplate', array (
-                'content' => Email::getTemplateContent ( Input::get ( 'TID' ) )
+                'content' => Template::getTemplateContent ( Input::get ( 'TID' ) )
         ) );
     }
 } );
 
 Route::post ( 'saveTemplate', function () {
     
-    $data = Email::putTemplateContents ( Input::get ( 'TID' ), Input::get ( 'content' ) );
+    $data = Template::putTemplateContents ( Input::get ( 'TID' ), Input::get ( 'content' ) );
     
     return View::make ( 'dashboard.manageTemplate', array (
             'content' => $data ['content'],
             'success' => $data ['success'],
-            'type' => $data ['type']
+            'message' => $data ['message']
     ) );
 } );

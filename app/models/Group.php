@@ -1,7 +1,7 @@
 <?php
-use Illuminate\Auth\UserInterface;
 
-class Group extends Eloquent {
+class Group extends Eloquent
+{
 
     public $timestamps = true;
 
@@ -11,12 +11,16 @@ class Group extends Eloquent {
 
     protected $primaryKey = 'gid';
 
-    private static $state = array (
-            'invite',
-            'inviteSent',
-            'followUpSent',
-            'confirmed'
+    private static $states = array(
+        'invite',
+        'follow',
+        'confirmed'
     );
+
+    public static function getStatesArray()
+    {
+        return self::$states;
+    }
 
     /**
      * To add group if doesn't exists already Receives the data from HTTP POST
@@ -24,39 +28,48 @@ class Group extends Eloquent {
      * @hr_name HR person Name
      * @company Company name
      *
-     * @return multitype:boolean mixed
+     * @return array $data['gname', 'hr_name', 'company', 'empty', 'added']
      */
-    public function scopeAddGroup() {
+    public function scopeAddGroup()
+    {
 
-        $data = array ();
-        $data ['gname'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'gname' ) ) );
-        $data ['hr_name'] = Input::get ( 'hr_name' );
-        $data ['company'] = Input::get ( 'company' );
-        
+        $data = array();
+        $data ['gname'] = str_replace(' ', '_', strtolower(Input::get('gname')));
+        $data ['hr_name'] = Input::get('hr_name');
+        $data ['company'] = Input::get('company');
+
         $data ['empty'] = $data ['gname'] === "" || $data ['hr_name'] === "" || $data ['company'] === "";
-        
-        if ($data ['empty'] || self::groupExists ( $data ['gname'] )) {
+
+        if ($data ['empty'] || self::groupExists($data ['gname'])) {
             $data ['added'] = false;
-        }
-        else {
-            self::add ( $data );
+        } else {
+            self::add($data);
             $data ['added'] = true;
         }
-        
+
         return $data;
-    
+
     }
 
-    public function scopeGetInstance() {
+    /**
+     * @return $this
+     */
+    public function scopeGetInstance()
+    {
 
         return $this;
-    
+
     }
 
-    private static function groupExists($group) {
+    /**
+     * @param $group to search for
+     * @return int no. of occurrences
+     */
+    private static function groupExists($group)
+    {
 
-        return DB::table ( 'groups' )->where ( 'gid', '=', self::getUID () )->where ( 'gname', '=', $group )->count ();
-    
+        return DB::table('groups')->where('gid', '=', self::getUID())->where('gname', '=', $group)->count();
+
     }
 
     /**
@@ -64,20 +77,21 @@ class Group extends Eloquent {
      *
      * @param array $data
      */
-    private function add($data) {
+    private function add($data)
+    {
 
         $newGroup = new Group ();
-        $newGroup->gid = self::getUID ();
+        $newGroup->gid = self::getUID();
         $newGroup->gname = $data ['gname'];
-        $newGroup->gid_name = self::getUID () . '_' . $data ['gname'];
+        $newGroup->gid_name = self::getUID() . '_' . $data ['gname'];
         $newGroup->hr_name = $data ['hr_name'];
         $newGroup->company = $data ['company'];
-        $newGroup->state = self::$state[0];
-        
-        $newGroup->save ();
-        
-        self::setGroupUpdated ();
-    
+        $newGroup->state = self::$states [0];
+
+        $newGroup->save();
+
+        self::setGroupUpdated();
+
     }
 
     /**
@@ -86,20 +100,21 @@ class Group extends Eloquent {
      *
      * @return mixed
      */
-    public function scopeGetAllGroups() {
+    public function scopeGetAllGroups()
+    {
 
-        if (! Cache::has ( self::getUID () . '_isGroupUpdated' )) {
-            $groups = Group::findMany ( array (
-                    'gid' => self::getUID ()
-            ), array (
-                    'gname'
-            ) )->all ( 'gname' );
-            
-            self::setGroupUpdated ();
-            Cache::forever ( self::getUID () . '_isGroupUpdated', Helper::cleanGroups ( $groups ) );
+        if (!Cache::has(self::getUID() . '_isGroupUpdated')) {
+            $groups = Group::findMany(array(
+                'gid' => self::getUID()
+            ), array(
+                'gname'
+            ))->all('gname');
+
+            self::setGroupUpdated();
+            Cache::forever(self::getUID() . '_isGroupUpdated', Helper::cleanGroups($groups));
         }
-        
-        return Cache::get ( self::getUID () . '_isGroupUpdated' );
+
+        return Cache::get(self::getUID() . '_isGroupUpdated');
         // Helper::cleanGroups ( $groups );
     }
 
@@ -109,17 +124,18 @@ class Group extends Eloquent {
      *
      * @return multitype:boolean string
      */
-    public function scopeDeleteOne() {
+    public function scopeDeleteOne()
+    {
 
-        $data = array ();
-        $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
-        
-        $data ['deleted'] = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID () . "_" . $data ['gname'] )->delete () ? true : false;
-        
-        self::setGroupUpdated ();
-        
+        $data = array();
+        $data ['gname'] = strtolower(Input::get('gname'));
+
+        $data ['deleted'] = DB::table('groups')->where('gid_name', '=', self::getUID() . "_" . $data ['gname'])->delete() ? true : false;
+
+        self::setGroupUpdated();
+
         return $data;
-    
+
     }
 
     /**
@@ -129,40 +145,60 @@ class Group extends Eloquent {
      *
      * @return multitype:boolean string NULL
      */
-    public function scopeUpdateGroupName() {
+    public function scopeUpdateGroupName()
+    {
 
-        $data = array ();
-        $data ['gname'] = strtolower ( Input::get ( 'gname' ) );
-        $data ['toUpdate'] = str_replace ( ' ', '_', strtolower ( Input::get ( 'toUpdate' ) ) );
+        $data = array();
+        $data ['gname'] = strtolower(Input::get('gname'));
+        $data ['toUpdate'] = str_replace(' ', '_', strtolower(Input::get('toUpdate')));
         $data ['empty'] = $data ['toUpdate'] === "";
-        
+
         if ($data ['empty'])
             return $data;
-        $toUpdate = DB::table ( 'groups' )->where ( 'gid_name', '=', self::getUID () . '_' . $data ['gname'] )->update ( array (
-                'gname' => $data ['toUpdate'],
-                'gid_name' => self::getUID () . '_' . $data ['toUpdate']
-        ) );
-        
+        $toUpdate = DB::table('groups')->where('gid_name', '=', self::getUID() . '_' . $data ['gname'])->update(array(
+            'gname' => $data ['toUpdate'],
+            'gid_name' => self::getUID() . '_' . $data ['toUpdate']
+        ));
+
         $data ['updated'] = true;
-        self::setGroupUpdated ();
-        
+        self::setGroupUpdated();
+
         return $data;
-    
+
     }
 
     /**
      * To remove the Cache entry for all groups under a User
      */
-    private static function setGroupUpdated() {
+    private static function setGroupUpdated()
+    {
 
-        Cache::forget ( self::getUID () . '_isGroupUpdated' );
-    
+        Cache::forget(self::getUID() . '_isGroupUpdated');
+
     }
 
-    public static function getUID() {
+    public static function getUID()
+    {
 
-        return Auth::user ()->id;
-    
+        return Auth::user()->id;
+
+    }
+
+    public static function getAllGroupByStatus()
+    {
+
+        $groupBystatus = array();
+
+        $groups = Group::where('gid', '=', Group::getUID());
+
+        foreach (self::$states as $v) {
+            $groupBystatus ["$v"] = Helper::cleanGroups($groups->where('state', '=', "$v")->get(array(
+                'gname'
+            ))->all());
+        }
+
+        return $groupBystatus;
+
     }
 
 }
