@@ -159,7 +159,7 @@
         </div>
         @yield('status')
     </div>
-    @if(isset($groupsByStatus))
-    <?php Helper::arrayPrettyPrint($groupsByStatus, 0) ?> @endif
+    @if(isset($groupsByStatus) )
+    <?php //Helper::arrayPrettyPrint($groupsByStatus, 0) ?> @endif
 </div>
 @stop

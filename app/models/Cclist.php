@@ -81,10 +81,38 @@ class Cclist extends Eloquent
             return $data;
         }
 
-        $data ['deleted'] = DB::table('cclists')->where('cc_id', '=', Group::getUID() . '_' . $input ['gname'])->whereIn('email', $emailsToDelete)->delete();
+        $data ['deleted'] = DB::table('cclists')
+            ->where('cc_id', '=', Group::getUID() . '_' . $input ['gname'])
+            ->whereIn('email', $emailsToDelete)
+            ->delete();
+
         $data ['emailsToDelete'] = $emailsToDelete;
         return $data;
 
+    }
+
+    /**
+     * Get Emails corresponding to  group name
+     *
+     * @param array $groups
+     *
+     * @return array
+     */
+    public static function getMails( $groups )
+    {
+        $mailToFetch = array();
+        $gid = Group::getUID();
+
+        foreach ( $groups as $v ) {
+            $mailToFetch[ $gid . "_$v" ] = $gid . "_$v";
+        }
+
+        $mails = Cclist::findMany( $mailToFetch, array(
+            'cc_id',
+            'email'
+        ) )->toArray();
+
+        return $mails;
     }
 
 }
