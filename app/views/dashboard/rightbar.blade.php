@@ -17,8 +17,9 @@
         </div>
         <div class="col-lg-3 pull-right">
             <div class="row">
-                {{ Form::open(array('url' => 'getContent', 'id' =>
-                'invite')) }} @yield('isModify') @yield('invite')
+                {{ Form::open(array('url' => 'getContent', 'id' =>'invite')) }}
+                @yield('isModify')
+                {{ Form::radio('TID', 'invite', true, array('class' => 'hidden')) }}
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -44,8 +45,9 @@
                 {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent', 'id' =>
-                'follow')) }} @yield('isModify') @yield('follow')
+                {{ Form::open(array('url' => 'getContent', 'id' => 'follow')) }}
+                @yield('isModify')
+                {{ Form::radio('TID', 'follow', true, array('class' => 'hidden')) }}
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
@@ -71,8 +73,9 @@
                 {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent', 'id' =>
-                'confirm')) }} @yield('isModify') @yield('confirm')
+                {{ Form::open(array('url' => 'getContent', 'id' => 'confirm')) }}
+                @yield('isModify')
+                {{ Form::radio('TID', 'confirm', true, array('class' => 'hidden')) }}
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
                         <div class="row">
@@ -98,8 +101,9 @@
                 {{ Form::close() }}
             </div>
             <div class="row">
-                {{ Form::open(array('url' => 'getContent', 'id' =>
-                'custom1')) }} @yield('isModify') @yield('custom1')
+                {{ Form::open(array('url' => 'getContent', 'id' => 'custom1')) }}
+                @yield('isModify')
+                {{ Form::radio('TID', 'custom1', true, array('class' => 'hidden')) }}
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -126,7 +130,8 @@
             </div>
             <div class="row">
                 {{ Form::open(array('url' => 'getContent', 'id' => 'custom2')) }}
-                @yield('isModify') @yield('custom2')
+                @yield('isModify')
+                {{ Form::radio('TID', 'custom2', true, array('class' => 'hidden')) }}
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">

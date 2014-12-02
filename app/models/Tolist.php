@@ -95,13 +95,18 @@ class Tolist extends Eloquent
 
     }
 
+    /**
+     * Get Emails corresponding to  group name
+     * @param array $groups
+     * @return array
+     */
     public static function getMails($groups)
     {
         $mailToFetch = array();
         $gid = Group::getUID();
 
         foreach ($groups as $k => $v) {
-            $mailToFetch["$gid_$v"] = "$gid_$v";
+            $mailToFetch[$gid . "_$v"] = $gid . "_$v";
         }
 
         return Tolist::findMany($mailToFetch)->groupBy('to_id')->attributesToArray();

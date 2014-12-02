@@ -53,6 +53,10 @@ class MailingListController extends BaseController {
     
     }
 
+    /**
+     *
+     * @return \Illuminate\View\View
+     */
     public function deleteMails() {
 
         $input = Input::get ( 'mlist' );

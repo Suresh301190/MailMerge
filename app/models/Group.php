@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @property string gid
+ * @property string gname
+ * @property string gid_name
+ * @property string hr_name
+ * @property string state
+ */
 class Group extends Eloquent
 {
 
@@ -14,7 +21,7 @@ class Group extends Eloquent
     private static $states = array(
         'invite',
         'follow',
-        'confirmed'
+        'confirm'
     );
 
     public static function getStatesArray()
@@ -122,7 +129,7 @@ class Group extends Eloquent
      * To delete a group if exists Data is received via HTTP POST
      * <br>@gname group name
      *
-     * @return multitype:boolean string
+     * @return array $data['gname', 'deleted']
      */
     public function scopeDeleteOne()
     {
@@ -184,21 +191,21 @@ class Group extends Eloquent
 
     }
 
-    public static function getAllGroupByStatus()
+    /**
+     * To get the groups grouped by $status
+     * @return array
+     */
+    public static function getAllGroupsByStatus()
     {
 
-        $groupBystatus = array();
-
-        $groups = Group::where('gid', '=', Group::getUID());
+        $groupsBystatus = array();
 
         foreach (self::$states as $v) {
-            $groupBystatus ["$v"] = Helper::cleanGroups($groups->where('state', '=', "$v")->get(array(
+            $groupsBystatus ["$v"] = Helper::cleanGroups(Group::where('gid', '=', Group::getUID())->where('state', '=', "$v")->get(array(
                 'gname'
             ))->all());
         }
-
-        return $groupBystatus;
-
+        return $groupsBystatus;
     }
 
 }

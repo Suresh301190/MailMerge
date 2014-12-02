@@ -30,9 +30,10 @@ Mail' }} @stop @section('template-header') {{ 'Manage Templates' }}
             array('class' => 'btn btn-primary ')) }}</div>
         @foreach(Group::getStatesArray() as $status)
             {{ '<div class="col-lg-3 form-group">' }}
+            <label class="help-block">{{ $status }}</label>
             @foreach($groupsByStatus[$status] as $group)
                 {{ '<div class="checkbox"><label>' }}
-                <input type="checkbox" value="{{{ $group }}}">{{ $group }}
+                <input name="{{{ $status }}}[]" type="checkbox" value="{{{ $group }}}">{{ $group }}
                 {{ '</label></div>' }}
             @endforeach
             {{ '</div>' }}
@@ -45,18 +46,4 @@ Mail' }} @stop @section('template-header') {{ 'Manage Templates' }}
 </div>
 @stop @section('isModify')
 {{ Form::radio('template-modify', '0', true, array('class' => 'hidden')) }}
-@stop
-@section('invite')
-{{Form::radio('TID', 'invite', true, array('class' => 'hidden')) }}
-@stop
-@section('follow')
-{{ Form::radio('TID', 'follow', true, array('class'=> 'hidden')) }}
-@stop
-@section('confirm')
-{{ Form::radio('TID','confirm', true, array('class' => 'hidden')) }}
-@stop @section('custom')
-{{ Form::radio('TID', 'custom1', true, array('class' => 'hidden')) }}
-@stop
-@section('custom2')
-{{ Form::radio('TID', 'custom2', true,array('class' => 'hidden')) }}
 @stop

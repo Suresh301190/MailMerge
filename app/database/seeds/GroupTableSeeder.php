@@ -28,7 +28,16 @@ class GroupTableSeeder extends Seeder {
                 'gid_name' => '111911364852842467336_xerox',
                 'hr_name' => 'Kuldeep',
                 'company' => 'Xerox Research India' ,
-                'state' => 'inviteSent'
+                'state' => 'follow'
+        ) );
+
+        Group::create ( array (
+            'gid' => '111911364852842467336',
+            'gname' => 'Hike',
+            'gid_name' => '111911364852842467336_hike',
+            'hr_name' => 'Adaya',
+            'company' => 'Hike Messenger' ,
+            'state' => 'confirm'
         ) );
     
     }
