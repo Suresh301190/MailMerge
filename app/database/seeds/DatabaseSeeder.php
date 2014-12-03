@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('TolistTableSeeder');
 		$this->call('CclistTableSeeder');
 		$this->call('BcclistTableSeeder');
+        $this->call('AttachmentTableSeeder');
 	}
 
 }

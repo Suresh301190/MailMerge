@@ -26,6 +26,13 @@
                     <input name="ccSCP" type="checkbox" value="{{{ 'admin-placement@iiitd.ac.in' }}}">
                     CC SCP</label>
             </div>
+            <div class="row top-buffer">
+            @foreach(Template::getReplaceArray() as $v)
+                <label class="checkbox-inline">
+                    <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
+                </label>
+            @endforeach
+            </div>
         </div>
         <div class="col-lg-6">
             @if(isset($success) && $success)
@@ -55,13 +62,7 @@
     <div class="row">
         <div class="col-lg-4 top-buffer">
         {{ Form::submit('Send', array('class' => 'btn btn-primary ')) }}
-            @foreach(Template::getReplaceArray() as $v)
-                <div class="checkbox">
-                    <label>
-                        <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
-                        </label>
-                </div>
-            @endforeach
+
         </div>
         <!-- Add the Send Mail Checkboxes -->
         <div class="col-lg-8">
