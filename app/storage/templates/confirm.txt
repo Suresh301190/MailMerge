@@ -6,4 +6,4 @@
 
 <p>Then save the same to any of the template by selecting from above dropdown list.</p>
 
-<p>Please Make sure you have the pattern %HR&nbsp;and %COMPANY% in the document these will be replaced by the values set by you when setting up groups before the&nbsp;a mail is sent.</p>
+<p>Please Make sure you have the pattern %HR% and %COMPANY% in the document these will be replaced by the values set by you when setting up groups before the&nbsp;a mail is sent.</p>

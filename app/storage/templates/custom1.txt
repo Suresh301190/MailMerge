@@ -1,9 +1,11 @@
-<p>Dear Mam,</p>
-
-<p>The Templates can be modified from this screen please write out the contents the way you wish and it will be saved as it it.&nbsp;</p>
-
-<p>Further on your sides you can select the templates which you have saved earlier.</p>
-
-<p>Then save the same to any of the template by selecting from above dropdown list.</p>
-
-<p>Please Make sure you have the pattern %HR% and %COMPANY% in the document these will be replaced by the values set by you when setting up groups before the&nbsp;a mail is sent.</p>
+<pre>
+<em>/*
+</em><em>|--------------------------------------------------------------------------
+</em><em>| Mail &quot;Pretend&quot;
+</em><em>|--------------------------------------------------------------------------
+</em><em>|
+</em><em>| When this option is enabled, e-mail will not actually be sent over the
+</em><em>| web and will instead be written to your application&#39;s logs files so
+</em><em>| you may inspect the message. This is great for local development.
+</em><em>|
+</em><em>*/</em></pre>

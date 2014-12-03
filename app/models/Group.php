@@ -218,4 +218,17 @@
             return $groupsBystatus;
         }
 
+        private static $replace = array(
+            'hr_name', 'company'
+        );
+
+        public static function getReplaceValues( $group )
+        {
+            return Group::select(self::$replace)
+                ->where( 'gid', '=', Group::getUID() )
+                ->where( 'gname', '=', $group )
+                ->get()
+                ->toArray();
+        }
+
     }

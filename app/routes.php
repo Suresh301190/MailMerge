@@ -10,7 +10,9 @@
  * | and give it the Closure to execute when that URI is requested.
  * |
  */
-Route::get( '/', function () {
+    use Illuminate\Support\Facades\Input;
+
+    Route::get( '/', function () {
     return View::make( 'hello' );
 } );
 
@@ -135,7 +137,7 @@ Route::post( 'getContent', function () {
 
 Route::post( 'saveTemplate', function () {
 
-    $data = Template::putTemplateContents( Input::get( 'TID' ), Input::get( 'content' ) );
+    $data = Template::putTemplateContents( Input::get( 'TID' ), Input::get( 'content' ), Input::get('contains') );
 
     return View::make( 'dashboard.manageTemplate', array(
         'content' => $data [ 'content' ],

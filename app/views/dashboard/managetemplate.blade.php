@@ -10,7 +10,7 @@
     {{ Form::open(array('url' => 'saveTemplate')) }}
     <div class="row">
         <div class="col-lg-6">{{ Form::select('TID', array(
-        'useage' => 'Select Template from the list to save the content',
+        'usage' => 'Select Template from the list to save the content',
         'invite' => 'Invite Template',
         'follow' => 'Follow Up Template',
         'confirm' => 'Confirmation Template',
@@ -24,13 +24,13 @@
             @if(isset($success) && $success)
                 <div class="alert alert-success alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert"
-                        aria-hidden="true">�</button>
+                        aria-hidden="true">x</button>
                     {{ $message }}
                 </div>
             @elseif(isset($success) && !$success)
                 <div class="alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert"
-                        aria-hidden="true">�</button>
+                        aria-hidden="true">x</button>
                     {{ $message }}
                 </div>
             @endif
@@ -47,8 +47,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 top-buffer">
+        <div class="col-lg-3 top-buffer">
             {{ Form::submit('Save', array('class' => 'btn btn-primary ')) }}
+        </div>
+        <div class="col-lg-4 form-group top-buffer">
+            @foreach(Template::getReplaceArray() as $v)
+            <div class="checkbox">
+                <label>
+                    <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
+                 </label>
+            </div>
+            @endforeach
         </div>
     </div>
     {{ Form::close() }}

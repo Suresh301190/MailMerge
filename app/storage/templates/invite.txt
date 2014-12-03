@@ -1,9 +1,14 @@
-<p>Dear Mam,</p>
+<p>Hey Guys,</p>
 
-<p>The Templates can be modified from this screen please write out the contents the way you wish and it will be saved as it it.&nbsp;</p>
+<p>I am testing the app so please rest assured you might receive a lot of emails. Sorry But I need to verify :)</p>
 
-<p>Further on your sides you can select the templates which you have saved earlier.</p>
+<p>This is an Invite template</p>
 
-<p>Then save the same to any of the template by selecting from above dropdown list.</p>
+<p>name of the HR is &nbsp;%HR% and Company name is %COMPANY%.</p>
 
-<p>Please Make sure you have the pattern %HR% and %COMPANY% in the document these will be replaced by the values set by you when setting up groups before the&nbsp;a mail is sent.</p>
+<p>Please ignore this mail</p>
+
+<p>Regards</p>
+
+<p>Thanks<br />
+Suresh Rangaswamy</p>
