@@ -16,7 +16,7 @@ class TolistTableSeeder extends Seeder {
         
         Tolist::create ( array (
                 'to_id' => '111911364852842467336_amazon',
-                'email' => 'suresh301190@ail.com'
+                'email' => 'suresh301190@gmail.com'
         ) );
         
         Tolist::create ( array (

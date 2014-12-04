@@ -189,6 +189,9 @@
 
         }
 
+        /**
+         * @return string $id Google ID of the user
+         */
         public static function getUID()
         {
 
