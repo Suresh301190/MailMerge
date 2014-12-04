@@ -8,9 +8,11 @@
 		"laravel/framework": "4.2.*",
 		"themonkeys/laravel-google-auth": "dev-master",
 		"barryvdh/laravel-ide-helper": "~1.11",
-		"doctrine/dbal": "~2.4",
-		"barryvdh/laravel-debugbar": "~1.8"
+		"doctrine/dbal": "~2.4"
 	},
+    "require-dev":{
+        "barryvdh/laravel-debugbar": "~1.8"
+    },
 	"autoload": {
 		"classmap": [
 			"app/commands",
