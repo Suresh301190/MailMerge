@@ -10,7 +10,7 @@
 
 @section('template-form')
 <div id="template-form">
-    {{ Form::open(array('url' => 'sendMail')) }}
+    {{ Form::open(array('url' => 'sendMail', 'files' => 'true')) }}
     <div class="row col-lg-12">
         <div class="col-lg-6">
             <div class="row">
@@ -60,9 +60,33 @@
         </div>
     </div>
     <div class="row">
+        <label class="help-block col-lg-3">Select Attachments</label>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
+            @foreach($attachmentList as $k => $v )
+                <div class="col-lg-3">
+                    <label class="checkbox-inline">
+                        <input name="{{{ $k }}}" type="checkbox" value="{{{ $v }}}">
+                        {{ $v }}</label>
+                </div>
+            @endforeach
+        </div>
+        <div class="form-group col-lg-12">
+            @for($i = 0; $i < 2; $i++ )
+                <div class="row">
+                    @for($j = 0; $j < 2; $j++)
+                        <div class="col-lg-4 <?php if($j == 1) echo 'col-lg-offset-1' ?> " style="margin-bottom: 5px">
+                            {{ Form::file('attachments[]', array('class' => 'btn btn-outline btn-sm btn-success')) }}
+                        </div>
+                    @endfor
+                </div>
+            @endfor
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-4 top-buffer">
-        {{ Form::submit('Send', array('class' => 'btn btn-primary ')) }}
-
+            {{ Form::submit('Send', array('class' => 'btn btn-primary ')) }}
         </div>
         <!-- Add the Send Mail Checkboxes -->
         <div class="col-lg-8">
@@ -89,7 +113,7 @@
 </div>
 
 @if(isset($data))
-{{ Helper::arrayPrettyPrint($data, 0) }}
+{{-- Helper::arrayPrettyPrint($data, 0) --}}
 @endif
 
 @stop

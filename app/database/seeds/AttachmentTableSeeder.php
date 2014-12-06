@@ -13,16 +13,21 @@
         {
             Attachment::create( array(
                 'id'       => '111911364852842467336',
-                'filename' => 'Response_Sheet'
+                'filename' => 'Response Sheet'
             ) );
 
-            Attachment::create(array(
+            Attachment::create( array(
                 'id'       => '111911364852842467336',
-                'filename' => 'Custom2'
+                'filename' => 'Brochure'
             ) );
 
-            Attachment::create(array(
+            Attachment::create( array(
                 'id'       => '111911364852842467336',
+                'filename' => 'Custom1'
+            ) );
+
+            Attachment::create( array(
+                'id' => '111911364852842467336',
                 'filename' => 'Custom2'
             ) );
         }

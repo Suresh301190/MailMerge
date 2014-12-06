@@ -1,5 +1,4 @@
 <?php
-    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Facades\Input;
 
     /**
@@ -7,8 +6,11 @@
      * User: Suresh
      * Date: 04-Dec-14
      * Time: 2:39 AM
+     *
+     * @property string id       references id on User Model
+     * @property string filename file name of the attachment
      */
-    class Attachment extends Model
+    class Attachment extends Eloquent
     {
         protected $table = 'attachments';
 
@@ -32,7 +34,7 @@
          *
          * @return array $data['added', 'message']
          */
-        public function scopeAddAttachment()
+        public function addAttachment()
         {
             $data = array();
             if ( null == Input::file( 'file' ) ) {
@@ -44,6 +46,10 @@
                 $data['added'] = Input::file( 'file' )->move( self::getPath(), "$filename.$extension" );
                 if ( $data['added'] ) {
                     $data['message'] = "$filename.$extension Uploaded Successfully";
+                    $attach = new Attachment();
+                    $attach->id = User::getUID();
+                    $attach->filename = "$filename.$extension";
+                    $attach->save();
                 } else {
                     $data['message'] = "$filename.$extension Upload Failed Please Try Again";
                 }
@@ -52,13 +58,31 @@
             return $data;
         }
 
-
-        public static function getAttachments( $filenames )
+        /**
+         * Get the list of attachments which the user already saved
+         *
+         * @return array $filesKeyValue
+         */
+        public static function getAttachmentsArray()
         {
-            $files = array();
-            foreach($filenames as $filename){
-                $filename["$filename"] = '';
-            }
+            if ( Cache::has( Attachment::getAttachmentListString() ) )
+                return Cache::get( Attachment::getAttachmentListString() );
+
+            $files = Attachment::select( array( 'filename' ) )
+                ->where( 'id', '=', User::getUID() )
+                ->get()
+                ->toArray();
+
+            $filesKeyValue = Helper::makeKeyValuePair( $files );
+
+            Cache::put( Attachment::getAttachmentListString(), $filesKeyValue, 30 );
+
+            return $filesKeyValue;
+        }
+
+        private static function getAttachmentListString()
+        {
+            return User::getUID() . '_AttachmentList';
         }
 
 

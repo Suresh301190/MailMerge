@@ -55,5 +55,28 @@
 
         }
 
+        /**
+         * To make array( Key => Value ) to Value => Value
+         *
+         * @param array $arrays with array( array( Key => Value) )
+         *
+         * @return array $values array( Value => Value)
+         */
+        public static function makeKeyValuePair( $arrays )
+        {
+            $values = array();
+
+            if ( null == $arrays )
+                return $values;
+
+            foreach ( $arrays as $array ) {
+                foreach ( $array as $k => $v ) {
+                    $values["$v"] = $v;
+                }
+            }
+
+            return $values;
+        }
+
     }
 

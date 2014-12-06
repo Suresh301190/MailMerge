@@ -15,8 +15,9 @@
         {
             Schema::create( 'attachments', function ( $table ) {
                 $table->engine = 'InnoDB';
-                $table->string( 'id' );
-                $table->string( 'filename' );
+                $table->string( 'id' )->index();
+                $table->string( 'filename' )
+                    ->index();
                 $table->timestamps();
 
                 // Foreign Key Constraint
