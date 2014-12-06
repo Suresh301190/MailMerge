@@ -75,6 +75,9 @@
                 $name = Auth::user()->name;
                 $subject = $data['subject'];
 
+                $delay = self::$delay;
+
+
                 foreach ( $data["$state"] as $group ) {
                     $content = array();
                     $content['content'] = self::makeContent( $data['content'], Group::getReplaceValues( $group )[0] );
@@ -82,8 +85,8 @@
                     $cc = Cclist::getMails( array( $group ) );
                     $bcc = Bcclist::getMails( array( $group ) );
 
-                    self::sendOneMail( $from, $name, $subject, $content, $to, $cc, $bcc );
-
+                    self::sendOneMail( $delay, $from, $name, $subject, $content, $to, $cc, $bcc );
+                    $delay += self::$delay;
                 }
             }
 
@@ -130,6 +133,7 @@
         /**
          * Send a Mail with the following parameters
          *
+         * @param  int $delay Delay between Mails
          * @param string $from        sender's address
          * @param string $name        Name of the sender
          * @param string $subject     Subject of the mail
@@ -141,17 +145,20 @@
          * @param string $ccAdmin     CC admin-placements@iiitd.ac.in
          * @param string $ccSCP       CC scp@iiitd.ac.in
          */
-        private static function sendOneMail( $from, $name, $subject, $content, $to, $cc, $bcc, $attachments = array(), $ccAdmin = null, $ccSCP = null )
+        private static function sendOneMail( $delay, $from, $name, $subject, $content, $to, $cc, $bcc, $attachments = array(), $ccAdmin = '', $ccSCP = '' )
         {
-            Mail::send( 'emails.generic-mail', $content,
-                function ( $message) use($from, $name, $subject, $attachments, $to, $cc, $bcc, $ccAdmin, $ccSCP ) {
+            Mail::later( $delay, 'emails.generic-mail', $content,
+                function ( $message ) use ( $from, $name, $subject, $attachments, $to, $cc, $bcc ) {
 
                     $message->from( $from, $name )->subject( $subject );
 
-                    if ( null != $ccAdmin )
-                        $message->to( $ccAdmin );
-                    if ( null != $ccSCP )
-                        $message->to( $ccSCP );
+                    /*
+                    if ( '' != $ccAdmin )
+                        $message->cc( $ccAdmin );
+                    if ( '' != $ccSCP )
+                        $message->cc( $ccSCP );
+                    */
+
 
                     foreach ( $to as $row ) {
                         $message->to( $row['email'] );
