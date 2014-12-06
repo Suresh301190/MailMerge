@@ -112,20 +112,17 @@
          */
         public function scopeGetAllGroups()
         {
+            if ( Cache::has( self::getUID() . '_isGroupUpdated' ) )
+                return Cache::get( self::getUID() . '_isGroupUpdated' );
 
-            if ( !Cache::has( self::getUID() . '_isGroupUpdated' ) ) {
-                $groups = Group::findMany( array(
-                    'gid' => self::getUID()
-                ), array(
-                    'gname'
-                ) )->all( 'gname' );
+            $groups = Group::select( array( 'gname' ) )
+                ->where( 'gid', '=', User::getUID() )
+                ->get()->toArray();
 
-                self::setGroupUpdated();
-                Cache::forever( self::getUID() . '_isGroupUpdated', Helper::cleanGroups( $groups ) );
-            }
+            $groupKeyValue = self::makeKeyValuePair( $groups );
+            Cache::put( User::getUID() . '_isGroupUpdated', $groupKeyValue, 10 );
 
-            return Cache::get( self::getUID() . '_isGroupUpdated' );
-            // Helper::cleanGroups ( $groups );
+            return $groupKeyValue;
         }
 
         /**
@@ -185,7 +182,8 @@
         private static function setGroupUpdated()
         {
 
-            Cache::forget( self::getUID() . '_isGroupUpdated' );
+            Cache::forget( User::getUID() . '_isGroupUpdated' );
+            Cache::forget( User::getUID() . '_GroupByStatus' );
 
         }
 
@@ -206,17 +204,21 @@
          */
         public static function getAllGroupsByStatus()
         {
+            if ( Cache::has( User::getUID() . '_GroupByStatus' ) )
+                return Cache::get( User::getUID() . '_GroupByStatus' );
 
             $groupsBystatus = array();
 
             foreach ( self::$states as $v ) {
-                $groupsBystatus ["$v"] = Helper::cleanGroups(
-                    Group::where( 'gid', '=', Group::getUID() )
-                        ->where( 'state', '=', "$v" )
-                        ->get( array(
-                            'gname'
-                        ) )->all() );
+                $groups = Group::select( array( 'gname' ) )
+                    ->where( 'gid', '=', Group::getUID() )
+                    ->where( 'state', '=', "$v" )
+                    ->get()
+                    ->toArray();
+                $groupsBystatus ["$v"] = self::makeKeyValuePair( $groups );
             }
+
+            Cache::put( User::getUID() . '_GroupByStatus', $groupsBystatus, 10 );
 
             return $groupsBystatus;
         }
@@ -227,11 +229,34 @@
 
         public static function getReplaceValues( $group )
         {
-            return Group::select(self::$replace)
+            return Group::select( self::$replace )
                 ->where( 'gid', '=', Group::getUID() )
                 ->where( 'gname', '=', $group )
                 ->get()
                 ->toArray();
+        }
+
+        /**
+         * To make Key => Value to Value => Value
+         *
+         * @param array $arrays with array( array( Key => Value) )
+         *
+         * @return array $values array( Value => Value)
+         */
+        private static function makeKeyValuePair( $arrays )
+        {
+            $values = array();
+
+            if ( null == $arrays )
+                return $values;
+
+            foreach ( $arrays as $array ) {
+                foreach ( $array as $k => $v ) {
+                    $values["$v"] = $v;
+                }
+            }
+
+            return $values;
         }
 
     }
