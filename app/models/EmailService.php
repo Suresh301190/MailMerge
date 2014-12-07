@@ -1,10 +1,6 @@
 <?php
 
-    use Illuminate\Support\Facades\Auth;
-    use Illuminate\Support\Facades\Input;
-    use Illuminate\Support\Facades\View;
-
-    class Email
+    class EmailService
     {
 
         const HTML_HEADER = '<!DOCTYPE html>
@@ -36,9 +32,7 @@
 
         public static final function getMailingListArray()
         {
-
             return self::$mailingLists;
-
         }
 
         /**
@@ -116,7 +110,6 @@
                 }
             }
 
-            $data['attachments'] = $attachments;
             $data['data'] = array_merge( $data );
 
             return View::make( 'dashboard.send', $data );
@@ -143,7 +136,6 @@
 
             return $state;
         }
-
 
         /**
          * To make the contents unique to each mail by replacing the values in $replace (key => value) in the
@@ -174,7 +166,7 @@
          * @param bool $ccAdmin CC admin-placements@iiitd.ac.in
          * @param bool $ccSCP   CC scp@iiitd.ac.in
          */
-        private static function sendOneMail( $delay, $from, $name, $subject, $content, $to, $cc, $bcc, $attachments = array(), $ccAdmin = false, $ccSCP = false )
+        public static function sendOneMail( $delay, $from, $name, $subject, $content, $to, $cc, $bcc, $attachments = array(), $ccAdmin = false, $ccSCP = false )
         {
             Mail::later( $delay, 'emails.generic-mail', $content,
                 function ( $message ) use ( $from, $name, $subject, $attachments, $to, $cc, $bcc, $ccAdmin, $ccSCP ) {
@@ -207,6 +199,5 @@
                 } );
         }
     }
-
 
 ?>

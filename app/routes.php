@@ -15,20 +15,7 @@
         return View::make( 'hello' );
     } );
 
-    /*
-     * Route::get('home', function()
-     * {
-     * return View::make('dashboard.home');
-     * });
-     * //
-     */
-
-    Route::group( array(
-        'before' => array(
-            'google-finish-authentication',
-            'auth'
-        )
-    ), function () {
+    Route::group( array( 'before' => array( 'google-finish-authentication', 'auth' ) ), function () {
         Route::get( 'home', 'HomeController@showWelcome' );
     } );
 
@@ -70,8 +57,8 @@
             'mlists' => Email::getMailingListArray()
         ) );
 
-
         return Redirect::to( 'login' );
+
     } );
 
     Route::get( 'send', function () {

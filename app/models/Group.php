@@ -36,6 +36,25 @@
         }
 
         /**
+         * To store the next state transition for the state property
+         *
+         * @var array
+         */
+        private static $nextState = array(
+            'invite'  => 'follow',
+            'follow'  => 'confirm',
+            'confirm' => 'stop'
+        );
+
+        public static function getNextState( $state )
+        {
+            if ( !in_array( $state, self::$nextState ) )
+                return null;
+
+            return self::$nextState[ $state ];
+        }
+
+        /**
          * To add group if doesn't exists already Receives the data from HTTP POST
          *
          * @gname   group name
