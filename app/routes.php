@@ -83,7 +83,7 @@
             'groups'         => Group::getAllGroups(),
             'content'        => Template::getSendUsage(),
             'groupsByStatus' => Group::getAllGroupsByStatus(),
-            'attachmentList' => Attachment::getAttachmentsArray(),
+            'attachmentList' => Attachment::getMailAttachmentsArray(),
         ) );
 
 

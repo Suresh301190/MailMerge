@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 4, to provide autocomplete information to your IDE
- * Generated for Laravel 4.2.11 on 2014-12-06.
+ * Generated for Laravel 4.2.11 on 2014-12-07.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -2378,7 +2378,7 @@ namespace {
         /**
          * Get the Redis connection instance.
          *
-         * @return \Predis\ClientInterface
+         * @return \Predis\ClientInterface 
          * @static 
          */
         public static function connection(){
@@ -2402,7 +2402,7 @@ namespace {
          * Get the Redis database instance.
          *
          * @return \Illuminate\Redis\Database
-         * @static
+         * @static 
          */
         public static function getRedis(){
             return \Illuminate\Cache\RedisStore::getRedis();
@@ -8441,7 +8441,8 @@ namespace {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return mixed 
+         *
+*@return mixed
          * @static
          */
         public static function push( $job, $data = '', $queue = null )
@@ -8455,7 +8456,8 @@ namespace {
          * @param string $payload
          * @param string $queue
          * @param array $options
-         * @return mixed 
+         *
+*@return mixed
          * @static
          */
         public static function pushRaw( $payload, $queue = null, $options = array() )
@@ -8470,7 +8472,8 @@ namespace {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return mixed 
+         *
+*@return mixed
          * @static
          */
         public static function later( $delay, $job, $data = '', $queue = null )
@@ -8482,13 +8485,14 @@ namespace {
          * Pop the next job off of the queue.
          *
          * @param string $queue
-         * @return \Illuminate\Queue\Jobs\Job|null 
+         *
+*@return \Illuminate\Queue\Jobs\Job|null
          * @static
          */
-        public static function pop( $queue = null){
-            return \Illuminate\Queue\BeanstalkdQueue::pop($queue);
+        public static function pop($queue = null){
+            return \Illuminate\Queue\BeanstalkdQueue::pop($queue );
         }
-
+        
         /**
          * Delete a message from the Beanstalk queue.
          *
@@ -8500,7 +8504,7 @@ namespace {
          */
         public static function deleteMessage( $queue, $id )
         {
-            \Illuminate\Queue\BeanstalkdQueue::deleteMessage( $queue, $id);
+            \Illuminate\Queue\BeanstalkdQueue::deleteMessage($queue, $id);
         }
         
         /**
@@ -8511,16 +8515,15 @@ namespace {
          * @return string
          * @static
          */
-        public static function getQueue( $queue )
-        {
+        public static function getQueue($queue){
             return \Illuminate\Queue\BeanstalkdQueue::getQueue($queue);
         }
         
         /**
          * Get the underlying Pheanstalk instance.
          *
-         * @return \Pheanstalk_Pheanstalk
-         * @static
+         * @return \Pheanstalk_Pheanstalk 
+         * @static 
          */
         public static function getPheanstalk(){
             return \Illuminate\Queue\BeanstalkdQueue::getPheanstalk();
@@ -12357,7 +12360,7 @@ namespace {
         public static function getNames(){
             return \Illuminate\View\Factory::getNames();
         }
-
+        
     }
 
 
@@ -12366,7 +12369,7 @@ namespace {
         /**
          * Enable the Debugbar and boot, if not already booted.
          *
-         * @static
+         * @static 
          */
         public static function enable(){
             return \Barryvdh\Debugbar\LaravelDebugbar::enable();
@@ -12375,7 +12378,7 @@ namespace {
         /**
          * Boot the debugbar (add collectors, renderer and listener)
          *
-         * @static
+         * @static 
          */
         public static function boot(){
             return \Barryvdh\Debugbar\LaravelDebugbar::boot();
@@ -12388,7 +12391,7 @@ namespace {
          */
         public static function shouldCollect( $name, $default = false )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::shouldCollect( $name, $default);
+            return \Barryvdh\Debugbar\LaravelDebugbar::shouldCollect($name, $default);
         }
         
         /**
@@ -12397,11 +12400,11 @@ namespace {
          * @param string $name  Internal name, used to stop the measure
          * @param string $label Public name
          *
-*@static
+         * @static
          */
         public static function startMeasure( $name, $label = null )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::startMeasure( $name, $label );
+            return \Barryvdh\Debugbar\LaravelDebugbar::startMeasure($name, $label);
         }
         
         /**
@@ -12409,11 +12412,11 @@ namespace {
          *
          * @param string $name
          *
-*@static
+         * @static
          */
         public static function stopMeasure( $name )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::stopMeasure($name );
+            return \Barryvdh\Debugbar\LaravelDebugbar::stopMeasure($name);
         }
         
         /**
@@ -12421,11 +12424,11 @@ namespace {
          *
          * @param \Barryvdh\Debugbar\Exception $e
          *
-*@static
+         * @static
          */
         public static function addException( $e )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::addException( $e );
+            return \Barryvdh\Debugbar\LaravelDebugbar::addException($e);
         }
         
         /**
@@ -12439,7 +12442,7 @@ namespace {
          */
         public static function getJavascriptRenderer( $baseUrl = null, $basePath = null )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::getJavascriptRenderer( $baseUrl, $basePath );
+            return \Barryvdh\Debugbar\LaravelDebugbar::getJavascriptRenderer($baseUrl, $basePath);
         }
         
         /**
@@ -12451,8 +12454,7 @@ namespace {
          * @return \Symfony\Component\HttpFoundation\Response
          * @static
          */
-        public static function modifyResponse( $request, $response )
-        {
+        public static function modifyResponse($request, $response){
             return \Barryvdh\Debugbar\LaravelDebugbar::modifyResponse($request, $response);
         }
         
@@ -12460,7 +12462,7 @@ namespace {
          * Check if the Debugbar is enabled
          *
          * @return boolean 
-         * @static
+         * @static 
          */
         public static function isEnabled(){
             return \Barryvdh\Debugbar\LaravelDebugbar::isEnabled();
@@ -12470,7 +12472,7 @@ namespace {
          * Collects the data from the collectors
          *
          * @return array 
-         * @static
+         * @static 
          */
         public static function collect(){
             return \Barryvdh\Debugbar\LaravelDebugbar::collect();
@@ -12486,13 +12488,13 @@ namespace {
          */
         public static function injectDebugbar( $response )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::injectDebugbar( $response);
+            return \Barryvdh\Debugbar\LaravelDebugbar::injectDebugbar($response);
         }
         
         /**
          * Disable the Debugbar
          *
-         * @static
+         * @static 
          */
         public static function disable(){
             return \Barryvdh\Debugbar\LaravelDebugbar::disable();
@@ -12503,12 +12505,11 @@ namespace {
          *
          * @param string $label
          * @param float  $start
-         * @param float  $end
+         * @param float $end
          *
          * @static
          */
-        public static function addMeasure( $label, $start, $end )
-        {
+        public static function addMeasure($label, $start, $end){
             return \Barryvdh\Debugbar\LaravelDebugbar::addMeasure($label, $start, $end);
         }
         
@@ -12520,16 +12521,15 @@ namespace {
          *
          * @static
          */
-        public static function measure( $label, $closure )
-        {
+        public static function measure($label, $closure){
             return \Barryvdh\Debugbar\LaravelDebugbar::measure($label, $closure);
         }
         
         /**
          * Collect data in a CLI request
          *
-         * @return array
-         * @static
+         * @return array 
+         * @static 
          */
         public static function collectConsole(){
             return \Barryvdh\Debugbar\LaravelDebugbar::collectConsole();
@@ -12547,7 +12547,7 @@ namespace {
          */
         public static function addMessage( $message, $label = 'info' )
         {
-            return \Barryvdh\Debugbar\LaravelDebugbar::addMessage( $message, $label);
+            return \Barryvdh\Debugbar\LaravelDebugbar::addMessage($message, $label);
         }
         
         /**
@@ -12556,8 +12556,8 @@ namespace {
          * @param \DebugBar\DataCollectorInterface $collector
          *
          * @throws DebugBarException
-         * @return $this
-         * @static
+         * @return $this 
+         * @static 
          */
         public static function addCollector($collector){
             //Method inherited from \DebugBar\DebugBar            
@@ -12569,8 +12569,8 @@ namespace {
          *
          * @param string $name
          *
-         * @return boolean
-         * @static
+*@return boolean
+         * @static 
          */
         public static function hasCollector($name){
             //Method inherited from \DebugBar\DebugBar            
@@ -12583,7 +12583,7 @@ namespace {
          * @param string $name
          *
          * @return \DebugBar\DataCollectorInterface
-         * @static
+         * @static 
          */
         public static function getCollector($name){
             //Method inherited from \DebugBar\DebugBar            
@@ -12593,8 +12593,8 @@ namespace {
         /**
          * Returns an array of all data collectors
          *
-         * @return \DebugBar\array[DataCollectorInterface]
-         * @static
+         * @return \DebugBar\array[DataCollectorInterface] 
+         * @static 
          */
         public static function getCollectors(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12606,18 +12606,18 @@ namespace {
          *
          * @param \DebugBar\RequestIdGeneratorInterface $generator
          *
-         * @static
+*@static
          */
         public static function setRequestIdGenerator($generator){
             //Method inherited from \DebugBar\DebugBar            
-            return \Barryvdh\Debugbar\LaravelDebugbar::setRequestIdGenerator($generator );
+            return \Barryvdh\Debugbar\LaravelDebugbar::setRequestIdGenerator( $generator);
         }
 
         /**
          *
          *
-         * @return \DebugBar\RequestIdGeneratorInterface
-         * @static
+         * @return \DebugBar\RequestIdGeneratorInterface 
+         * @static 
          */
         public static function getRequestIdGenerator(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12627,8 +12627,8 @@ namespace {
         /**
          * Returns the id of the current request
          *
-         * @return string
-         * @static
+         * @return string 
+         * @static 
          */
         public static function getCurrentRequestId(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12640,18 +12640,18 @@ namespace {
          *
          * @param \DebugBar\StorageInterface $storage
          *
-         * @static
+*@static
          */
         public static function setStorage($storage = null){
             //Method inherited from \DebugBar\DebugBar            
-            return \Barryvdh\Debugbar\LaravelDebugbar::setStorage($storage );
+            return \Barryvdh\Debugbar\LaravelDebugbar::setStorage( $storage);
         }
 
         /**
          *
          *
-         * @return \DebugBar\StorageInterface
-         * @static
+         * @return \DebugBar\StorageInterface 
+         * @static 
          */
         public static function getStorage(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12661,8 +12661,8 @@ namespace {
         /**
          * Checks if the data will be persisted
          *
-         * @return boolean
-         * @static
+         * @return boolean 
+         * @static 
          */
         public static function isDataPersisted(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12674,33 +12674,33 @@ namespace {
          *
          * @param \DebugBar\HttpDriverInterface $driver
          *
-         * @static
+*@static
          */
         public static function setHttpDriver($driver){
             //Method inherited from \DebugBar\DebugBar            
             return \Barryvdh\Debugbar\LaravelDebugbar::setHttpDriver($driver);
         }
-
+        
         /**
          * Returns the HTTP driver
          * 
          * If no http driver where defined, a PhpHttpDriver is automatically created
          *
-         * @return \DebugBar\HttpDriverInterface
-         * @static
+         * @return \DebugBar\HttpDriverInterface 
+         * @static 
          */
         public static function getHttpDriver(){
             //Method inherited from \DebugBar\DebugBar            
             return \Barryvdh\Debugbar\LaravelDebugbar::getHttpDriver();
         }
-
+        
         /**
          * Returns collected data
          * 
          * Will collect the data if none have been collected yet
          *
-         * @return array
-         * @static
+         * @return array 
+         * @static 
          */
         public static function getData(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12713,7 +12713,7 @@ namespace {
          * @param string $headerName
          * @param integer $maxHeaderLength
          *
-*@return array
+         * @return array
          * @static
          */
         public static function getDataAsHeaders( $headerName = 'phpdebugbar', $maxHeaderLength = 4096, $maxTotalHeaderLength = 250000){
@@ -12724,7 +12724,7 @@ namespace {
         /**
          * Sends the data through the HTTP headers
          *
-         * @param bool    $useOpenHandler
+         * @param bool $useOpenHandler
          * @param string $headerName
          * @param integer $maxHeaderLength
          *
@@ -12732,13 +12732,13 @@ namespace {
          */
         public static function sendDataInHeaders( $useOpenHandler = null, $headerName = 'phpdebugbar', $maxHeaderLength = 4096){
             //Method inherited from \DebugBar\DebugBar            
-            return \Barryvdh\Debugbar\LaravelDebugbar::sendDataInHeaders( $useOpenHandler, $headerName, $maxHeaderLength);
+            return \Barryvdh\Debugbar\LaravelDebugbar::sendDataInHeaders($useOpenHandler, $headerName, $maxHeaderLength);
         }
         
         /**
          * Stacks the data in the session for later rendering
          *
-         * @static
+         * @static 
          */
         public static function stackData(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12748,8 +12748,8 @@ namespace {
         /**
          * Checks if there is stacked data in the session
          *
-         * @return boolean
-         * @static
+         * @return boolean 
+         * @static 
          */
         public static function hasStackedData(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12761,8 +12761,8 @@ namespace {
          *
          * @param boolean $delete Whether to delete the data in the session
          *
-         * @return array
-         * @static
+*@return array
+         * @static 
          */
         public static function getStackedData($delete = true){
             //Method inherited from \DebugBar\DebugBar            
@@ -12774,7 +12774,7 @@ namespace {
          *
          * @param string $ns
          *
-         * @static
+*@static
          */
         public static function setStackDataSessionNamespace($ns){
             //Method inherited from \DebugBar\DebugBar            
@@ -12784,8 +12784,8 @@ namespace {
         /**
          * Returns the key used in the $_SESSION array
          *
-         * @return string
-         * @static
+         * @return string 
+         * @static 
          */
         public static function getStackDataSessionNamespace(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12798,7 +12798,7 @@ namespace {
          *
          * @param boolean $enabled
          *
-         * @static
+*@static
          */
         public static function setStackAlwaysUseSessionStorage($enabled = true){
             //Method inherited from \DebugBar\DebugBar            
@@ -12809,8 +12809,8 @@ namespace {
          * Checks if the session is always used to store stacked data
          * even if a storage is enabled
          *
-         * @return boolean
-         * @static
+         * @return boolean 
+         * @static 
          */
         public static function isStackAlwaysUseSessionStorage(){
             //Method inherited from \DebugBar\DebugBar            
@@ -12818,39 +12818,39 @@ namespace {
         }
 
         /**
+         * 
          *
-         *
-         * @static
+         * @static 
          */
         public static function offsetSet($key, $value){
             //Method inherited from \DebugBar\DebugBar            
-            return \Barryvdh\Debugbar\LaravelDebugbar::offsetSet( $key, $value);
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetSet($key, $value );
         }
 
         /**
+         * 
          *
-         *
-         * @static
+         * @static 
          */
         public static function offsetGet($key){
             //Method inherited from \DebugBar\DebugBar            
-            return \Barryvdh\Debugbar\LaravelDebugbar::offsetGet($key);
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetGet($key );
         }
 
         /**
+         * 
          *
-         *
-         * @static
+         * @static 
          */
         public static function offsetExists($key){
             //Method inherited from \DebugBar\DebugBar            
-            return \Barryvdh\Debugbar\LaravelDebugbar::offsetExists($key);
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetExists($key );
         }
 
         /**
+         * 
          *
-         *
-         * @static
+         * @static 
          */
         public static function offsetUnset($key){
             //Method inherited from \DebugBar\DebugBar            

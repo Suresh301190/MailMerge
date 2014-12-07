@@ -13,25 +13,25 @@
         {
             Attachment::create( array(
                 'id'       => '111911364852842467336',
-                'fid' => 'response',
-                'filename' => 'Response Sheet'
+                'fid'      => 'response',
+                'filename' => 'Response Sheet.docx'
             ) );
 
             Attachment::create( array(
                 'id'       => '111911364852842467336',
-                'fid' => 'brochure',
-                'filename' => 'Brochure'
+                'fid'      => 'brochure',
+                'filename' => 'PlaceBro.pdf'
             ) );
 
             Attachment::create( array(
                 'id'       => '111911364852842467336',
-                'fid' => 'custom2',
-                'filename' => 'Custom1'
+                'fid'      => 'custom1',
+                'filename' => 'PC - Prep Handbook Final.docx'
             ) );
 
             Attachment::create( array(
                 'id'  => '111911364852842467336',
-                'fid' => 'custom1',
+                'fid' => 'custom2',
                 'filename' => 'Custom2'
             ) );
         }

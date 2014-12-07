@@ -25,6 +25,20 @@
             </div>
         </div>
     </div>
-
+    <div class="col-lg-9">
+        @if(isset($added) && $added)
+            <div class="alert alert-success alert-dismissable top-buffer">
+                <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">x</button>
+                {{ $message }}
+            </div>
+        @elseif(isset($added) && !$added)
+            <div class="alert alert-danger alert-dismissable top-buffer">
+                <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">x</button>
+                {{ $message }}
+            </div>
+        @endif
+    </div>
 </div>
 @stop

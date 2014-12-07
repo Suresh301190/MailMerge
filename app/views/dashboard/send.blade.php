@@ -50,6 +50,7 @@
             @endif
         </div>
     </div>
+    <!-- Mail Body textarea using CKEditor -->
     <div class="row">
         <div class="col-lg-12">
             {{ Form::textarea('editor', $content, array(
@@ -60,26 +61,27 @@
         </div>
     </div>
     <div class="row">
-        <label class="help-block col-lg-3">Select Attachments</label>
+        <label class="help-block col-lg-6">Select Attachments</label>
+        <label class="help-block col-lg-6">Custom Attachments</label>
     </div>
     <div class="row">
-        <div class="form-group col-lg-12">
+        <!-- Pre-defined Mail Attachments -->
+        <div class="form-group col-lg-6">
             @foreach($attachmentList as $k => $v )
-                <div class="col-lg-3">
+                <div>
                     <label class="checkbox-inline">
                         <input name="{{{ $k }}}" type="checkbox" value="{{{ $v }}}">
                         {{ $v }}</label>
                 </div>
             @endforeach
         </div>
-        <div class="form-group col-lg-12">
-            @for($i = 0; $i < 2; $i++ )
+        <!-- Custom Mail Attachments -->
+        <div class="form-group col-lg-6">
+            @for($i = 0; $i < 3; $i++ )
                 <div class="row">
-                    @for($j = 0; $j < 2; $j++)
-                        <div class="col-lg-4 <?php if($j == 1) echo 'col-lg-offset-1' ?> " style="margin-bottom: 5px">
-                            {{ Form::file('attachments[]', array('class' => 'btn btn-outline btn-sm btn-success')) }}
-                        </div>
-                    @endfor
+                    <div style="margin-bottom: 5px">
+                            {{ Form::file("attachment$i", array('class' => 'btn btn-outline btn-sm btn-success')) }}
+                    </div>
                 </div>
             @endfor
         </div>
@@ -112,8 +114,8 @@
     {{ Form::close() }}
 </div>
 
-@if(isset($data))
-{{-- Helper::arrayPrettyPrint($data, 0) --}}
+@if(isset($attachmentList))
+{{ var_dump($attachmentList) }}
 @endif
 
 @stop

@@ -38,7 +38,7 @@
 
         public static function updateAttachment()
         {
-            $data = self::saveMailAttachment( '', Input::file( 'file' ) );
+            $data = self::saveMailAttachment( '', 'file' );
 
             if ( $data['added'] ) {
                 DB::table( 'attachments' )
@@ -60,26 +60,25 @@
          * Upload the attachment to a folder for future as we use Mail::queue
          *
          * @param string $dir  directory slug for the mail attachment
-         * @param array  $file file to save
+         * @param string $file filename of the file to fetch from posted data save
          *
          * @return array $data['added', 'message', 'path', 'filename']
          */
-        public function saveMailAttachment( $dir )
+        public static function saveMailAttachment( $dir, $file )
         {
             $data = array();
-            if ( null == Input::file( 'file' ) ) {
+            if ( !Input::hasFile( "$file" ) ) {
                 $data['added'] = false;
                 $data['message'] = 'Invalid File';
             } else {
-                $filename = Input::file( 'file' )->getClientOrigionalName();
-                $extension = Input::file( 'file' )->getCLientOrigionalExtension();
-                $data['added'] = Input::file( 'file' )->move( self::getPath() . "/$dir/", "$filename.$extension" );
+                $filename = Input::file( "$file" )->getClientOriginalName();
+                $data['added'] = Input::file( "$file" )->move( self::getPath() . "/$dir", "$filename" );
                 if ( $data['added'] ) {
-                    $data['message'] = "$filename.$extension Uploaded Successfully";
-                    $data['filename'] = "$filename.$extension";
-                    $data['path'] = self::getPath() . "/$dir/$filename.$extension";
+                    $data['message'] = "$filename Uploaded Successfully";
+                    $data['filename'] = "$filename";
+                    $data['path'] = self::getPath() . "/$dir/$filename";
                 } else {
-                    $data['message'] = "$filename.$extension Upload Failed Please Try Again";
+                    $data['message'] = "$filename Upload Failed Please Try Again";
                 }
             }
 
@@ -99,6 +98,27 @@
         private static function getAttachmentListString()
         {
             return User::getUID() . '_AttachmentList';
+        }
+
+        /**
+         *
+         */
+        public static function getMailAttachmentsArray()
+        {
+            $attachments = Attachment::select( array( 'fid', 'filename' ) )
+                ->where( 'id', '=', User::getUID() )
+                ->whereIn( 'fid', array_keys( self::getAttachmentsArray() ) )
+                ->get()
+                ->toArray();
+
+            $attachmentsKeyValue = array();
+
+
+            foreach ( $attachments as $v ) {
+                $attachmentsKeyValue[ $v['fid'] ] = $v['filename'];
+            }
+
+            return $attachmentsKeyValue;
         }
 
 
