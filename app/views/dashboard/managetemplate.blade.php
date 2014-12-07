@@ -9,15 +9,25 @@
 <div id="template-form">
     {{ Form::open(array('url' => 'saveTemplate')) }}
     <div class="row">
-        <div class="col-lg-6">{{ Form::select('TID', array(
-        'usage' => 'Select Template from the list to save the content',
-        'invite' => 'Invite Template',
-        'follow' => 'Follow Up Template',
-        'confirm' => 'Confirmation Template',
-        'custom1' => 'custom1 Template',
-        'custom2' => ' custom2 Template'
-        ), NULL, array('class' => 'form-control top-buffer')) }}
+        <div class="col-lg-6">
+        <div class="row col-lg-12">
+            {{ Form::select('TID', array(
+            'usage' => 'Select Template to save the content',
+            'invite' => 'Invite Template',
+            'follow' => 'Follow Up Template',
+            'confirm' => 'Confirmation Template',
+            'custom1' => 'custom1 Template',
+            'custom2' => ' custom2 Template'
+            ), NULL, array('class' => 'form-control top-buffer')) }}
         </div>
+        <div class="row top-buffer col-lg-12">
+            @foreach(Template::getReplaceArray() as $v)
+                <label class="checkbox-inline">
+                    <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
+                </label>
+            @endforeach
+        </div>
+    </div>
 
         <!-- To Display Template status -->
         <div class="col-lg-6">
@@ -49,15 +59,6 @@
     <div class="row">
         <div class="col-lg-3 top-buffer">
             {{ Form::submit('Save', array('class' => 'btn btn-primary ')) }}
-        </div>
-        <div class="col-lg-4 form-group top-buffer">
-            @foreach(Template::getReplaceArray() as $v)
-            <div class="checkbox">
-                <label>
-                    <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
-                 </label>
-            </div>
-            @endforeach
         </div>
     </div>
     {{ Form::close() }}

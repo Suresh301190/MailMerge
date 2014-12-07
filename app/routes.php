@@ -10,7 +10,6 @@
      * | and give it the Closure to execute when that URI is requested.
      * |
      */
-    use Illuminate\Support\Facades\Input;
 
     Route::get( '/', function () {
         return View::make( 'hello' );
@@ -108,6 +107,16 @@
         ) );
     } );
 
+    Route::get( 'attach', function () {
+        if ( !Auth::check() ) {
+            return Redirect::to( 'login' );
+        }
+
+        return View::make( 'dashboard.attach', array(
+            'attachmentList' => Attachment::getAttachmentsArray(),
+        ) );
+    } );
+
     Route::post( 'deleteGroup', 'GroupController@deleteGroup' );
 
     Route::post( 'addNewGroup', 'GroupController@addNewGroup' );
@@ -145,6 +154,8 @@
         return View::make( 'dashboard.manageTemplate', array(
             'content' => $data ['content'],
             'success' => $data ['success'],
-            'message' => $data ['message']
+            'message' => $data ['message'],
         ) );
     } );
+
+    Route::post( 'saveAttachments', 'AttachmentController@update' );

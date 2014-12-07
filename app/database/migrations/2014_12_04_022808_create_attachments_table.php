@@ -16,6 +16,8 @@
             Schema::create( 'attachments', function ( $table ) {
                 $table->engine = 'InnoDB';
                 $table->string( 'id' )->index();
+                $table->string( 'fid' )
+                    ->index();
                 $table->string( 'filename' )
                     ->index();
                 $table->timestamps();

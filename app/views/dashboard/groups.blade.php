@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <!-- --  {{ Helper::arrayPrettyPrint($groups, 0) }} <!-- -->
+     {{-- Helper::arrayPrettyPrint($groups, 0) --}}
 
     <!-- To Display if group was added -->
     @if(isset($data['added']) and $data['added'])

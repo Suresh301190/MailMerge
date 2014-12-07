@@ -27,11 +27,11 @@
                     CC SCP</label>
             </div>
             <div class="row top-buffer">
-            @foreach(Template::getReplaceArray() as $v)
-                <label class="checkbox-inline">
-                    <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
-                </label>
-            @endforeach
+                @foreach(Template::getReplaceArray() as $v)
+                    <label class="checkbox-inline">
+                        <input name="contains[]" type="checkbox" value="{{{ $v }}}" checked>Contains {{ $v }} ?
+                    </label>
+                @endforeach
             </div>
         </div>
         <div class="col-lg-6">

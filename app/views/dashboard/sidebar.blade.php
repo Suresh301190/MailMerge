@@ -1,4 +1,5 @@
-@extends('dashboard.navbar') @section('sidepane')
+@extends('dashboard.navbar')
+@section('sidepane')
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
@@ -16,11 +17,13 @@
             <li><a class="active" href="{{{URL::to('home')}}}"><i
                     class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
             <li><a href="{{{ URL::to('groups') }}}"><i
-                    class="fa fa-edit fa-fw"></i> Manage Groups</a></li>
+                    class="fa fa-wrench fa-fw"></i> Manage Groups</a></li>
             <li><a href="{{{ URL::to('lists') }}}"><i
-                    class="fa fa-edit fa-fw"></i> Manage Mailing Lists</a></li>
+                    class="fa fa-wrench fa-fw"></i> Manage Mailing Lists</a></li>
             <li><a href="{{{ URL::to('managetemplate') }}}"><i
-                    class="fa fa-edit fa-fw"></i> Manage Templates</a></li>
+                    class="fa fa-files-o fa-fw"></i> Manage Templates</a></li>
+            <li><a href="{{{ URL::to('attach') }}}"><i
+                    class="fa fa-files-o fa-fw"></i> Manage Attachments</a></li>
             <li><a href="{{{ URL::to('send') }}}"><i
                     class="fa fa-edit fa-fw"></i> Send Mails</a></li>
         </ul>

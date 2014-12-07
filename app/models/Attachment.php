@@ -1,5 +1,4 @@
 <?php
-    use Illuminate\Support\Facades\Input;
 
     /**
      * Created by PhpStorm.
@@ -7,8 +6,9 @@
      * Date: 04-Dec-14
      * Time: 2:39 AM
      *
-     * @property string id       references id on User Model
-     * @property string filename file name of the attachment
+     * @property string id        references id on User Model
+     * @property enum   fid       file type of the document
+     * @property string filename  file name of the attachment
      */
     class Attachment extends Eloquent
     {
@@ -20,21 +20,51 @@
 
         private static $path = null;
 
+        private static $attachmentsArray = array(
+            'response' => 'Response Sheet',
+            'brochure' => 'Brochure',
+            'custom1'  => 'Custom1',
+            'custom2'  => 'Custom2',
+        );
+
         private static function getPath()
         {
             if ( null == self::$path ) {
-                self::$path = storage_path() . '/' . User::getUID() . '/';
+                self::$path = storage_path() . '/' . User::getUID();
             }
 
             return self::$path;
         }
 
+        public static function updateAttachment()
+        {
+            $data = self::saveMailAttachment( '', Input::file( 'file' ) );
+
+            if ( $data['added'] ) {
+                DB::table( 'attachments' )
+                    ->where( 'id', '=', User::getUID() )
+                    ->where( 'fid', '=', Input::get( 'type' ) )
+                    ->update( array(
+                        'filename' => $data['filename'],
+                        'id'       => User::getUID(),
+                        'fid'      => Input::get( 'type' ),
+                    ) );
+            }
+
+            $data['attachmentList'] = Attachment::getAttachmentsArray();
+
+            return View::make( 'dashboard.attach', $data );
+        }
+
         /**
-         * upload the file to the folder
+         * Upload the attachment to a folder for future as we use Mail::queue
          *
-         * @return array $data['added', 'message']
+         * @param string $dir  directory slug for the mail attachment
+         * @param array  $file file to save
+         *
+         * @return array $data['added', 'message', 'path', 'filename']
          */
-        public function addAttachment()
+        public function saveMailAttachment( $dir )
         {
             $data = array();
             if ( null == Input::file( 'file' ) ) {
@@ -43,13 +73,11 @@
             } else {
                 $filename = Input::file( 'file' )->getClientOrigionalName();
                 $extension = Input::file( 'file' )->getCLientOrigionalExtension();
-                $data['added'] = Input::file( 'file' )->move( self::getPath(), "$filename.$extension" );
+                $data['added'] = Input::file( 'file' )->move( self::getPath() . "/$dir/", "$filename.$extension" );
                 if ( $data['added'] ) {
                     $data['message'] = "$filename.$extension Uploaded Successfully";
-                    $attach = new Attachment();
-                    $attach->id = User::getUID();
-                    $attach->filename = "$filename.$extension";
-                    $attach->save();
+                    $data['filename'] = "$filename.$extension";
+                    $data['path'] = self::getPath() . "/$dir/$filename.$extension";
                 } else {
                     $data['message'] = "$filename.$extension Upload Failed Please Try Again";
                 }
@@ -65,19 +93,7 @@
          */
         public static function getAttachmentsArray()
         {
-            if ( Cache::has( Attachment::getAttachmentListString() ) )
-                return Cache::get( Attachment::getAttachmentListString() );
-
-            $files = Attachment::select( array( 'filename' ) )
-                ->where( 'id', '=', User::getUID() )
-                ->get()
-                ->toArray();
-
-            $filesKeyValue = Helper::makeKeyValuePair( $files );
-
-            Cache::put( Attachment::getAttachmentListString(), $filesKeyValue, 30 );
-
-            return $filesKeyValue;
+            return Attachment::$attachmentsArray;
         }
 
         private static function getAttachmentListString()
