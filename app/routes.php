@@ -137,7 +137,7 @@
             return View::make( 'dashboard.send', array(
                 'content'        => Template::getTemplateContent( Input::get( 'TID' ) ),
                 'groupsByStatus' => Group::getAllGroupsByStatus(),
-                'attachmentList' => Attachment::getAttachmentsArray(),
+                'attachmentList' => Attachment::getMailAttachmentsArray(),
             ) );
         } else {
             return View::make( 'dashboard.managetemplate', array(

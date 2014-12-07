@@ -101,13 +101,19 @@
         }
 
         /**
+         * @param array|null $values if null returns all pre-defined
          *
+         * @return array $attachmentsKeyValue
          */
-        public static function getMailAttachmentsArray()
+        public static function getMailAttachmentsArray( $values = null )
         {
+            // set pre-defined if no parameter is passed
+            if ( !$values ) {
+                $values = array_keys( self::getAttachmentsArray() );
+            }
             $attachments = Attachment::select( array( 'fid', 'filename' ) )
                 ->where( 'id', '=', User::getUID() )
-                ->whereIn( 'fid', array_keys( self::getAttachmentsArray() ) )
+                ->whereIn( 'fid', $values )
                 ->get()
                 ->toArray();
 
@@ -121,5 +127,19 @@
             return $attachmentsKeyValue;
         }
 
+        /**
+         * @param array $values to search for pre-defined and get the path corresponding to them
+         *
+         * @return array
+         */
+        public static function getMailAttachmentsPaths( $values )
+        {
+            $attachments = array();
+            foreach ( Attachment::getMailAttachmentsArray( $values ) as $k => $v ) {
+                array_push( $attachments, Attachment::getPath() . "/$v" );
+            }
+
+            return $attachments;
+        }
 
     }

@@ -114,8 +114,8 @@
     {{ Form::close() }}
 </div>
 
-@if(isset($attachmentList))
-{{ var_dump($attachmentList) }}
+@if(isset($data))
+{{ var_dump($data) }}
 @endif
 
 @stop
