@@ -86,13 +86,32 @@
 
                 $toAttach = array();
 
+                // Process selected attachments
                 foreach ( Attachment::getAttachmentsArray() as $k => $v ) {
                     if ( isset( $data["$k"] ) ) {
                         $toAttach["$k"] = "$k";
                     }
                 }
 
+                // Get the Corresponding paths
                 $attachments = Attachment::getMailAttachmentsPaths( $toAttach );
+
+                // Get a temp dir to store the attachments as we send the mails later
+                $dir = Attachment::getTempDir();
+
+                // Process Uploaded attachments
+                for ( $i = 0; $i < 3; $i++ ) {
+                    if ( isset( $data["attachment$i"] ) ) {
+                        $ret = Attachment::saveMailAttachment( $dir, "attachment$i" );
+
+                        // If attachment was saved successfully
+                        if ( $ret['added'] ) {
+                            array_push( $attachments, $ret['path'] );
+                        } else {
+                            return View::make( 'dashboard.send', $data );
+                        }
+                    }
+                }
 
                 $delay = self::$delay;
 

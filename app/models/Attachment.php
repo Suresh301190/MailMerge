@@ -76,7 +76,7 @@
                 if ( $data['added'] ) {
                     $data['message'] = "$filename Uploaded Successfully";
                     $data['filename'] = "$filename";
-                    $data['path'] = self::getPath() . "/$dir/$filename";
+                    $data['path'] = self::getPath() . "/$dir$filename";
                 } else {
                     $data['message'] = "$filename Upload Failed Please Try Again";
                 }
@@ -140,6 +140,16 @@
             }
 
             return $attachments;
+        }
+
+        /**
+         * @var string $shuffle used to create tmp directory
+         */
+        private static $shuffle = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+        public static function getTempDir()
+        {
+            return "tmp/" . str_random( 8 ) . '/';
         }
 
     }
