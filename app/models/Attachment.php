@@ -18,8 +18,6 @@
 
         public $incrementing = false;
 
-        private static $path = null;
-
         private static $attachmentsArray = array(
             'response' => 'Response Sheet',
             'brochure' => 'Brochure',
@@ -29,11 +27,7 @@
 
         private static function getPath()
         {
-            if ( null == self::$path ) {
-                self::$path = storage_path() . '/' . User::getUID();
-            }
-
-            return self::$path;
+            return storage_path() . '/users/' . User::getUID();
         }
 
         public static function updateAttachment()
@@ -108,18 +102,24 @@
         public static function getMailAttachmentsArray( $values = null )
         {
             // set pre-defined if no parameter is passed
-            if ( !$values ) {
+            if ( is_null( $values ) ) {
                 $values = array_keys( self::getAttachmentsArray() );
             }
-            $attachments = Attachment::select( array( 'fid', 'filename' ) )
-                ->where( 'id', '=', User::getUID() )
-                ->whereIn( 'fid', $values )
-                ->get()
-                ->toArray();
+
+            $attachments = array();
+
+            // if array is not empty
+            if ( count( $values ) ) {
+                $attachments = Attachment::select( array( 'fid', 'filename' ) )
+                    ->where( 'id', '=', User::getUID() )
+                    ->whereIn( 'fid', $values )
+                    ->get()
+                    ->toArray();
+            }
 
             $attachmentsKeyValue = array();
 
-
+            // construct path
             foreach ( $attachments as $v ) {
                 $attachmentsKeyValue[ $v['fid'] ] = $v['filename'];
             }

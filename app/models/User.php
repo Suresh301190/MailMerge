@@ -79,13 +79,11 @@
         /**
          * checks if user exists in the table
          *
-         * @return int no. of users with this User ID (must be atmost 1)
+         * @return bool true if users is already registered
          */
         public static function userExists()
         {
-
-            return DB::table( 'users' )->where( 'id', '=', Auth::user()->id )->count();
-
+            return DB::table( 'users' )->where( 'id', '=', Auth::user()->id )->exists();
         }
 
         /**

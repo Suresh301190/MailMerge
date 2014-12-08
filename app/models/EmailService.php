@@ -1,5 +1,7 @@
 <?php
 
+    use Carbon\Carbon;
+
     class EmailService
     {
 
@@ -41,95 +43,124 @@
          */
         public static function sendMails()
         {
-            $data = Input::all();
-            $data['groupsByStatus'] = Group::getAllGroupsByStatus();
-            $data['attachmentList'] = Attachment::getMailAttachmentsArray();
-            $data['success'] = false;
-            $state = null;
-
-            // To check if all group are from one status
-            if ( !$state = self::onlyOneStatusSelected( $data ) ) {
-                $data['message'] = 'Please select only one state [' . implode( ",", Group::getStatesArray() ) . ']';
+            $data = array();
+            try {
+                $data = Input::all();
+                $data['groupsByStatus'] = Group::getAllGroupsByStatus();
+                $data['attachmentList'] = Attachment::getMailAttachmentsArray();
                 $data['success'] = false;
-            } // To check if at least one group was selected
-            else if ( !$data['success'] ) {
-                $data['message'] = 'Please select at least 1 Recipient';
-            } // To check if subject line is empty
-            else if ( $data['subject'] == '' ) {
-                $data['message'] = ' **Subject missing** ';
-                $data['success'] = false;
-            } // To check if subject line is empty
-            else if ( $data['subject'] == '' ) {
-                $data['message'] = ' **Subject missing** ';
-                $data['success'] = false;
-            } // To validate content
-            else if ( !Template::validate( $data['content'], $data['contains'] ) ) {
-                $data['message'] = "The template doesn't Contain all the selected patterns [" . implode( ',', $data['contains'] ) . "]";
-                $data['success'] = false;
+                $state = null;
 
-            } else {
-                $groups = $data["$state"];
+                // To check if all group are from one status
+                if ( !$state = self::onlyOneStatusSelected( $data ) ) {
+                    $data['message'] = 'Please select only one state [' . implode( ",", Group::getStatesArray() ) . ']';
+                } // To check if at least one group was selected
+                else if ( !$data['success'] ) {
+                    $data['message'] = 'Please select at least 1 Recipient';
+                } // To check if subject line is empty
+                else if ( $data['subject'] == '' ) {
+                    $data['message'] = ' **Subject missing** ';
+                    $data['success'] = false;
+                } // To validate content
+                else if ( !Template::validate( $data['content'], $data['contains'] ) ) {
+                    $data['message'] = "The template doesn't Contain all the selected patterns [" . implode( ',', $data['contains'] ) . "]";
+                    $data['success'] = false;
+                } // If all checks passes
+                else {
+                    $groups = $data["$state"];
 
-                // Check if all recipients is selected
-                if ( in_array( 'all', $data["$state"] ) ) {
-                    $groups = Group::getAllGroupsByStatus()["$state"];
-                }
-
-                $data['message'] = 'Mailing Recipients [' . implode( ",", $groups ) . ']';
-
-                // get the email of the user currently logged-in
-                $from = Auth::user()->email;
-                $name = Auth::user()->name;
-
-                //set the subject
-                $subject = $data['subject'];
-
-                $toAttach = array();
-
-                // Process selected attachments
-                foreach ( Attachment::getAttachmentsArray() as $k => $v ) {
-                    if ( isset( $data["$k"] ) ) {
-                        $toAttach["$k"] = "$k";
+                    // Check if all recipients is selected
+                    if ( in_array( 'all', $data["$state"] ) ) {
+                        $groups = Group::getAllGroupsByStatus()["$state"];
                     }
-                }
 
-                // Get the Corresponding paths
-                $attachments = Attachment::getMailAttachmentsPaths( $toAttach );
+                    $data['message'] = 'Mailing Recipients [' . implode( ",", $groups ) . ']';
 
-                // Get a temp dir to store the attachments as we send the mails later
-                $dir = Attachment::getTempDir();
+                    // get the email of the user currently logged-in
+                    $from = Auth::user()->email;
+                    $name = Auth::user()->name;
 
-                // Process Uploaded attachments
-                for ( $i = 0; $i < 3; $i++ ) {
-                    if ( isset( $data["attachment$i"] ) ) {
-                        $ret = Attachment::saveMailAttachment( $dir, "attachment$i" );
+                    //set the subject
+                    $subject = $data['subject'];
 
-                        // If attachment was saved successfully
-                        if ( $ret['added'] ) {
-                            array_push( $attachments, $ret['path'] );
-                        } else {
-                            return View::make( 'dashboard.send', $data );
+                    $toAttach = array();
+
+                    // Process selected attachments
+                    foreach ( Attachment::getAttachmentsArray() as $k => $v ) {
+                        if ( isset( $data["$k"] ) ) {
+                            $toAttach["$k"] = "$k";
                         }
                     }
+
+                    // Get the Corresponding paths
+                    $attachments = Attachment::getMailAttachmentsPaths( $toAttach );
+
+                    // Get a temp dir to store the attachments as we send the mails later
+                    $dir = Attachment::getTempDir();
+
+                    // Process Uploaded attachments
+                    for ( $i = 0; $i < 3; $i++ ) {
+                        if ( isset( $data["attachment$i"] ) ) {
+                            $ret = Attachment::saveMailAttachment( $dir, "attachment$i" );
+
+                            // If attachment was saved successfully
+                            if ( $ret['added'] ) {
+                                array_push( $attachments, $ret['path'] );
+                            } else {
+                                return View::make( 'dashboard.send', $data );
+                            }
+                        }
+                    }
+
+                    $delay = self::$delay;
+
+                    foreach ( $groups as $group ) {
+                        $content = array();
+                        $content['content'] = self::makeContent( $data['content'], Group::getReplaceValues( $group )[0] );
+
+                        // get the mailing lists
+                        $to = Tolist::getMails( array( $group ) );
+                        $cc = Cclist::getMails( array( $group ) );
+                        $bcc = Bcclist::getMails( array( $group ) );
+
+                        // first method
+                        /*
+                        self::sendOneMail( $delay, $from, $name,
+                            $subject, $content, $to, $cc, $bcc,
+                            $attachments, isset( $data['ccAdmin'] ), isset( $data['ccSCP'] ) );
+
+                        // */
+
+                        // Second method via queues
+                        $mailData = array();
+                        $mailData['from'] = $from;
+                        $mailData['name'] = $name;
+                        $mailData['subject'] = $subject;
+                        $mailData['content'] = $content;
+                        $mailData['to'] = $to;
+                        $mailData['cc'] = $cc;
+                        $mailData['bcc'] = $bcc;
+                        $mailData['attachments'] = $attachments;
+                        $mailData['ccAdmin'] = isset( $data['ccAdmin'] );
+                        $mailData['ccSCP'] = isset( $data['ccSCP'] );
+
+                        // for DB update
+                        $mailData['uid'] = User::getUID();
+                        $mailData['group'] = $group;
+                        $mailData['state'] = $state;
+
+                        Queue::later( Carbon::now()->addSeconds( $delay ), 'EmailQueue', $mailData );
+
+                        // Increase Delay
+                        $delay += self::$delay;
+                    }
                 }
 
-                $delay = self::$delay;
-
-                foreach ( $groups as $group ) {
-                    $content = array();
-                    $content['content'] = self::makeContent( $data['content'], Group::getReplaceValues( $group )[0] );
-                    $to = Tolist::getMails( array( $group ) );
-                    $cc = Cclist::getMails( array( $group ) );
-                    $bcc = Bcclist::getMails( array( $group ) );
-
-                    self::sendOneMail( $delay, $from, $name,
-                        $subject, $content, $to, $cc, $bcc,
-                        $attachments, isset( $data['ccAdmin'] ), isset( $data['ccSCP'] ) );
-                    $delay += self::$delay;
-                }
+                //Log::debug( $data );
+            } catch ( Exception $e ) {
+                Log::error( $e );
+                $data['message'] = 'Internal Server Error Please try Again';
             }
-
-            $data['data'] = array_merge( $data );
 
             return View::make( 'dashboard.send', $data );
         }

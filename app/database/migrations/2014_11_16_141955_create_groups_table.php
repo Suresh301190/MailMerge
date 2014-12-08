@@ -14,14 +14,20 @@
 
             Schema::create( 'groups', function ( $table ) {
                 $table->engine = 'InnoDB';
-                $table->string( 'gid', 50 )->index();
-                $table->string( 'gname', 50 )->index();
-                $table->string( 'gid_name', 100 )->unique()->index();
+                $table->string( 'gid', 50 )
+                    ->index();
+                $table->string( 'gname', 50 )
+                    ->index();
+                $table->string( 'gid_name', 100 )
+                    ->unique()
+                    ->index();
+
+                $table->dateTime( 'reminder' )
+                    ->default( null );
                 $table->string( 'hr_name', 50 );
                 $table->string( 'company', 50 );
-                $table->enum( 'state', array( 'invite', 'follow', 'confirm' ) );
-                // $table->string ( 'cc_list', 50 )->unique ();
-                // $table->string ( 'bcc_list', 50 )->unique ();
+                $table->enum( 'state', array( 'invite', 'follow', 'confirm', 'confirmed' ) );
+
                 $table->timestamps();
 
                 $table->primary( array(

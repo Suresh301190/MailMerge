@@ -32,7 +32,7 @@
             Attachment::create( array(
                 'id'  => '111911364852842467336',
                 'fid' => 'custom2',
-                'filename' => 'Custom2'
+                'filename' => 'Parser.java'
             ) );
         }
     }

@@ -14,8 +14,13 @@
 
             Schema::create( 'bcclists', function ( $table ) {
                 $table->engine = 'InnoDB';
-                $table->string( 'bcc_id', 100 )->index();
-                $table->foreign( 'bcc_id' )->references( 'gid_name' )->on( 'groups' )->onUpdate( 'cascade' )->onDelete( 'cascade' );
+                $table->string( 'bcc_id', 100 )
+                    ->index();
+                $table->foreign( 'bcc_id' )
+                    ->references( 'gid_name' )
+                    ->on( 'groups' )
+                    ->onUpdate( 'cascade' )
+                    ->onDelete( 'cascade' );
                 $table->string( 'email', 50 );
                 $table->timestamps();
             } );

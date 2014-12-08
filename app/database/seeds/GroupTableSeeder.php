@@ -1,5 +1,7 @@
 <?php
 
+    use Carbon\Carbon;
+
     class GroupTableSeeder extends Seeder
     {
 
@@ -12,7 +14,8 @@
                 'gid_name' => '111911364852842467336_adobe',
                 'hr_name'  => 'Akashra',
                 'company'  => 'Adobe Noida',
-                'state'    => 'invite'
+                'state'    => 'invite',
+                'reminder' => Carbon::now(),
             ) );
 
             Group::create( array(
@@ -21,7 +24,8 @@
                 'gid_name' => '111911364852842467336_amazon',
                 'hr_name'  => 'Simi',
                 'company'  => 'Amazon India',
-                'state'    => 'invite'
+                'state'    => 'invite',
+                'reminder' => Carbon::now(),
             ) );
 
             Group::create( array(
@@ -30,7 +34,8 @@
                 'gid_name' => '111911364852842467336_xerox',
                 'hr_name'  => 'Kuldeep',
                 'company'  => 'Xerox Research India',
-                'state'    => 'follow'
+                'state'    => 'follow',
+                'reminder' => Carbon::now()->addDays( 4 ),
             ) );
 
             Group::create( array(
@@ -39,7 +44,8 @@
                 'gid_name' => '111911364852842467336_hike',
                 'hr_name'  => 'Adaya',
                 'company'  => 'Hike Messenger',
-                'state'    => 'confirm'
+                'state'    => 'confirm',
+                'reminder' => Carbon::now()->subDays( 2 ),
             ) );
 
         }

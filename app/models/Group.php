@@ -1,12 +1,14 @@
 <?php
+    use Carbon\Carbon;
 
     /**
-     * @property string gid
-     * @property string gname
-     * @property string gid_name
-     * @property string hr_name
-     * @property string state
-     * @property string company
+     * @property string   gid
+     * @property string   gname
+     * @property string   gid_name
+     * @property string   hr_name
+     * @property string   state
+     * @property string   company
+     * @property datetime reminder
      */
     class Group extends Eloquent
     {
@@ -27,7 +29,7 @@
         private static $states = array(
             'invite',
             'follow',
-            'confirm'
+            'confirm',
         );
 
         public static function getStatesArray()
@@ -43,15 +45,15 @@
         private static $nextState = array(
             'invite'  => 'follow',
             'follow'  => 'confirm',
-            'confirm' => 'stop'
+            'confirm' => 'confirmed',
         );
 
         public static function getNextState( $state )
         {
-            if ( !in_array( $state, self::$nextState ) )
+            if ( is_null( self::$nextState["$state"] ) )
                 return null;
 
-            return self::$nextState[ $state ];
+            return self::$nextState["$state"];
         }
 
         /**
@@ -243,6 +245,18 @@
             return $groupsBystatus;
         }
 
+        public static function getAllGroupsByStatusCount()
+        {
+            $groupsByStatus = Group::getAllGroupsByStatus();
+
+            $count = array();
+            foreach ( $groupsByStatus as $k => $v ) {
+                $count["$k"] = count( $v );
+            }
+
+            return $count;
+        }
+
         private static $replace = array(
             'hr_name', 'company'
         );
@@ -264,6 +278,34 @@
         private static function getGroupByStatusString()
         {
             return User::getUID() . '_GroupByStatus';
+        }
+
+        /**
+         * Update the state of the group
+         *
+         * @param string $uid
+         * @param string $group
+         * @param enum   $state  current state
+         * @param int    $remind Remind after x days
+         */
+        public static function updateState( $uid, $group, $state, $remind )
+        {
+            $next = self::getNextState( $state );
+
+            Log::info( "@Suresh-- $state --> $next" );
+            if ( null == $next )
+                return;
+
+            DB::table( 'groups' )
+                ->where( 'gid', '=', $uid )
+                ->where( 'gname', '=', $group )
+                ->update( array(
+                    'state'    => $next,
+                    'reminder' => Carbon::now()->addDays( $remind ),
+                ) );
+
+            self::setGroupUpdated();
+
         }
 
     }
