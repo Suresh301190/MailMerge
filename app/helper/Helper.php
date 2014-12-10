@@ -78,5 +78,12 @@
             return $values;
         }
 
+        public static function dump( $expr )
+        {
+            echo "<pre>";
+            var_dump( $expr );
+            echo "</pre>";
+        }
+
     }
 

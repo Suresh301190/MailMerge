@@ -48,6 +48,16 @@
                 'reminder' => Carbon::now()->subDays( 2 ),
             ) );
 
+            Group::create( array(
+                'gid'      => '111911364852842467336',
+                'gname'    => 'flipkart',
+                'gid_name' => '111911364852842467336_flipkart',
+                'hr_name'  => 'Update later',
+                'company'  => 'Flipkart',
+                'state'    => 'confirmed',
+                'reminder' => Carbon::now()->subDays( 1 ),
+            ) );
+
         }
 
     }

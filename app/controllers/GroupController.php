@@ -36,7 +36,7 @@ class GroupController extends BaseController {
     public function updateGroup() {
 
         return View::make ( 'dashboard.groups', array (
-                'data' => Group::UpdateGroupName (),
+            'data' => Group::UpdateGroupDetails(),
                 'groups' => Group::getAllGroups ()
         ) );
     

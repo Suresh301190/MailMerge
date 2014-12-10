@@ -23,6 +23,7 @@
       <w>dropdown</w>
       <w>filenames</w>
       <w>fillable</w>
+      <w>flipkart</w>
       <w>geet</w>
       <w>gmail</w>
       <w>gname</w>
@@ -44,6 +45,7 @@
       <w>rangaswamy</w>
       <w>rashmil</w>
       <w>rightbar</w>
+      <w>sentmails</w>
       <w>sidepane</w>
       <w>simi</w>
       <w>suresh</w>
@@ -51,6 +53,7 @@
       <w>timeline</w>
       <w>tolist</w>
       <w>tolists</w>
+      <w>ugname</w>
     </words>
   </dictionary>
 </component>

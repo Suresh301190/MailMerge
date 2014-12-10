@@ -50,7 +50,7 @@
                     $ccAdmin = $data['ccAdmin'];
                     $ccSCP = $data['ccSCP'];
 
-                    Log::debug( $data );
+                    //Log::debug( $data );
 
                     // send the mail
                     Mail::send( 'emails.generic-mail', $content,
@@ -83,24 +83,25 @@
 
                         } );
 
-                    Log::debug( '@Suresh Message Sent' );
+                    //Log::debug( '@Suresh Message Sent' );
                     $sent = true;
 
                     // add the status to the sent_mails table
-                    SentMail::addRow( $data['uid'], $data['group'], false );
+                    SentMail::addOrUpdateRow( $data['uid'], $data['group'], 'sent' );
 
-                    Log::debug( '@Suresh sent_mails table updated' );
+                    //Log::debug( '@Suresh sent_mails table updated' );
 
                     // Update the state of group
                     Group::updateState( $data['uid'], $data['group'], $data['state'], 7 );
-                    Log::debug( '@Suresh Group state updated' );
+
+                    //Log::debug( '@Suresh Group state updated' );
 
                 } catch ( Exception $e ) {
                     Log::error( $e );
                 }
 
                 if ( !$sent ) {
-                    SentMail::addRow( $data['uid'], $data['group'], true );
+                    SentMail::addOrUpdateRow( $data['uid'], $data['group'], 'failed' );
                 }
 
                 $job->delete();

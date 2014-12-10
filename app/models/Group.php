@@ -76,10 +76,12 @@
             $data ['empty'] = $data ['gname'] === "" || $data ['hr_name'] === "" || $data ['company'] === "";
 
             if ( $data ['empty'] || self::groupExists( $data ['gname'] ) ) {
-                $data ['added'] = false;
+                $data ['success'] = false;
+                $data['message'] = 'Group Name: ' . $data['gname'] . ' Already Exists';
             } else {
                 self::add( $data );
-                $data ['added'] = true;
+                $data ['success'] = true;
+                $data['message'] = 'Group Name: ' . $data['gname'] . ' Added Successfully';
             }
 
             return $data;
@@ -133,15 +135,16 @@
          */
         public function scopeGetAllGroups()
         {
-            if ( Cache::has( Group::getGroupsString() ) )
-                return Cache::get( Group::getGroupsString() );
+            //if ( Cache::has( Group::getGroupsString() ) )
+            //    return Cache::get( Group::getGroupsString() );
 
             $groups = Group::select( array( 'gname' ) )
                 ->where( 'gid', '=', User::getUID() )
                 ->get()->toArray();
 
             $groupKeyValue = Helper::makeKeyValuePair( $groups );
-            Cache::put( Group::getGroupsString(), $groupKeyValue, 30 );
+
+            //Cache::put( Group::getGroupsString(), $groupKeyValue, 30 );
 
             return $groupKeyValue;
         }
@@ -154,15 +157,24 @@
          */
         public function scopeDeleteOne()
         {
+            $ret = array();
+            $ret['message'] = 'Stop playing with the system';
+            $data = all();
 
-            $data = array();
-            $data ['gname'] = strtolower( Input::get( 'gname' ) );
+            if ( !isset( $data['gname'] ) ) {
+                $ret['success'] = false;
 
-            $data ['deleted'] = DB::table( 'groups' )->where( 'gid_name', '=', self::getUID() . "_" . $data ['gname'] )->delete() ? true : false;
+                return $ret;
+            }
+
+            $ret ['success'] = DB::table( 'groups' )
+                ->where( 'gid_name', '=', self::getUID() . "_" . $data ['gname'] )
+                ->delete() ? true : false;
 
             self::setGroupUpdated();
+            $ret['message'] = "Group " . $data['gname'] . ' Deleted Successfully';
 
-            return $data;
+            return $ret;
 
         }
 
@@ -173,28 +185,38 @@
          *
          * @return array $data['gname', 'toUpdate', 'empty', 'updated']
          */
-        public function scopeUpdateGroupName()
+        public function scopeUpdateGroupDetails()
         {
 
-            $data = array();
-            $data ['gname'] = strtolower( Input::get( 'gname' ) );
-            $data ['toUpdate'] = str_replace( ' ', '_', strtolower( Input::get( 'toUpdate' ) ) );
-            $data ['empty'] = $data ['toUpdate'] === "";
+            $data = Input::all();
+            $toUpdate = array();
+            if ( !empty( $data['ugname'] ) ) {
+                $toUpdate['gname'] = str_replace( ' ', '_', strtolower( Input::get( 'ugname' ) ) );
+                $toUpdate['gid_name'] = User::getUID() . '_' . $toUpdate['gname'];
+            }
+            if ( !empty( $data['HR'] ) ) {
+                $toUpdate['hr_name'] = $data['HR'];
+            }
+            if ( !empty( $data['COMPANY'] ) ) {
+                $toUpdate['company'] = $data['COMPANY'];
+            }
 
-            if ( $data ['empty'] )
-                return $data;
+            if ( !count( $toUpdate ) ) {
+                $toUpdate['message'] = 'Invalid Values please try again';
+                $toUpdate['success'] = false;
+
+                return $toUpdate;
+            }
 
             DB::table( 'groups' )
                 ->where( 'gid_name', '=', self::getUID() . '_' . $data ['gname'] )
-                ->update( array(
-                    'gname'    => $data ['toUpdate'],
-                    'gid_name' => self::getUID() . '_' . $data ['toUpdate']
-                ) );
+                ->update( $toUpdate );
 
-            $data ['updated'] = true;
+            $toUpdate['message'] = "All values updated Successfully";
+            $toUpdate ['success'] = true;
             self::setGroupUpdated();
 
-            return $data;
+            return $toUpdate;
 
         }
 
@@ -226,8 +248,8 @@
          */
         public static function getAllGroupsByStatus()
         {
-            if ( Cache::has( Group::getGroupByStatusString() ) )
-                return Cache::get( Group::getGroupByStatusString() );
+            //if ( Cache::has( Group::getGroupByStatusString() ) )
+            //    return Cache::get( Group::getGroupByStatusString() );
 
             $groupsBystatus = array();
 
@@ -240,7 +262,7 @@
                 $groupsBystatus ["$v"] = Helper::makeKeyValuePair( $groups );
             }
 
-            Cache::put( Group::getGroupByStatusString(), $groupsBystatus, 30 );
+            //Cache::put( Group::getGroupByStatusString(), $groupsBystatus, 30 );
 
             return $groupsBystatus;
         }
@@ -292,7 +314,7 @@
         {
             $next = self::getNextState( $state );
 
-            Log::info( "@Suresh-- $state --> $next" );
+            //Log::info( "@Suresh-- $state --> $next" );
             if ( null == $next )
                 return;
 
@@ -304,6 +326,7 @@
                     'reminder' => Carbon::now()->addDays( $remind ),
                 ) );
 
+            // to clear cache
             self::setGroupUpdated();
 
         }

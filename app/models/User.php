@@ -57,9 +57,7 @@
          */
         public function scopeGetInstance()
         {
-
             return $this;
-
         }
 
         /**

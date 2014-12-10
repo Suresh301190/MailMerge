@@ -93,7 +93,7 @@
                         </a>
                     </div>
                     <!-- /.list-group -->
-                    <a href="#" class="btn btn-default btn-block">View All Alerts</a>
+                    <a href="{{{ URL::to('mail-info') }}}" class="btn btn-default btn-block">View All Alerts</a>
                 </div>
                 <!-- /.panel-body -->
             </div>

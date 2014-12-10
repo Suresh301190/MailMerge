@@ -15,19 +15,19 @@
             SentMail::create( array(
                 'uid'    => '111911364852842467336',
                 'gname'  => 'xerox',
-                'failed' => false
+                'status' => 'sent'
             ) );
 
             SentMail::create( array(
                 'uid'    => '111911364852842467336',
                 'gname'  => 'adobe',
-                'failed' => true
+                'status' => 'failed'
             ) );
 
             SentMail::create( array(
                 'uid'    => '111911364852842467336',
                 'gname'  => 'hike',
-                'failed' => false
+                'status' => 'sent'
             ) );
 
         }

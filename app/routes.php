@@ -54,7 +54,7 @@
 
         return View::make( 'dashboard.lists', array(
             'groups' => Group::getAllGroups(),
-            'mlists' => Email::getMailingListArray()
+            'mlists' => EmailService::getMailingListArray()
         ) );
 
         return Redirect::to( 'login' );
@@ -146,3 +146,9 @@
     } );
 
     Route::post( 'saveAttachments', 'AttachmentController@update' );
+
+    Route::get( 'mail-info', function () {
+        return View::make( 'dashboard.mail-info', array(
+            'mailByStatus' => SentMail::getAllMailByStatus(),
+        ) );
+    } );
