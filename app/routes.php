@@ -150,5 +150,6 @@
     Route::get( 'mail-info', function () {
         return View::make( 'dashboard.mail-info', array(
             'mailByStatus' => SentMail::getAllMailByStatus(),
+            'notifications' => SentMail::getNotifications( 180, 1000 ),
         ) );
     } );

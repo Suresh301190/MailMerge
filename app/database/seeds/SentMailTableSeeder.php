@@ -15,19 +15,29 @@
             SentMail::create( array(
                 'uid'    => '111911364852842467336',
                 'gname'  => 'xerox',
-                'status' => 'sent'
+                'status' => 'sent',
+                'type'   => 'invite'
             ) );
 
             SentMail::create( array(
                 'uid'    => '111911364852842467336',
                 'gname'  => 'adobe',
-                'status' => 'failed'
+                'status' => 'failed',
+                'type'   => 'invite'
             ) );
 
             SentMail::create( array(
                 'uid'    => '111911364852842467336',
                 'gname'  => 'hike',
-                'status' => 'sent'
+                'status' => 'sent',
+                'type'   => 'follow'
+            ) );
+
+            SentMail::create( array(
+                'uid'    => '111911364852842467336',
+                'gname'  => 'flipkart',
+                'status' => 'sent',
+                'type'   => 'confirm'
             ) );
 
         }

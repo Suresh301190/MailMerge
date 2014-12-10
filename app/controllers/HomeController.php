@@ -20,7 +20,7 @@
 
             $data = array();
             $data['added'] = User::addUser()['added'];
-            $data['groupsByStatus'] = Group::getAllGroupsByStatusCount();
+            $data['groupCount'] = Group::getAllGroupsByStatusCount( true );
 
             return View::make( 'dashboard.home', $data );
 

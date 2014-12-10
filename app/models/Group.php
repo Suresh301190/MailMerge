@@ -267,9 +267,12 @@
             return $groupsBystatus;
         }
 
-        public static function getAllGroupsByStatusCount()
+        public static function getAllGroupsByStatusCount( $confirm = false )
         {
             $groupsByStatus = Group::getAllGroupsByStatus();
+
+            if ( $confirm )
+                $groupsByStatus = array_merge( $groupsByStatus, array( 'confirmed' => 'confirmed' ) );
 
             $count = array();
             foreach ( $groupsByStatus as $k => $v ) {

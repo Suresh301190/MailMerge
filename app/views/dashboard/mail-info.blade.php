@@ -8,5 +8,7 @@
         <!-- /.col-lg-12 -->
     </div>
     {{ Helper::dump($mailByStatus) }}
+
+    {{ Helper::dump($notifications) }}
 </div>
  @stop

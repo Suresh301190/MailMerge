@@ -17,12 +17,14 @@
                     ->index();
                 $table->string( 'gname' )
                     ->index();
+                $table->enum( 'type', array( 'invite', 'follow', 'confirm' ) )
+                    ->index();
                 $table->enum( 'status', array( 'sending', 'sent', 'failed' ) )
                     ->index();
                 $table->timestamps();
 
                 // primary key (Composite Key)
-                $table->primary( array( 'uid', 'gname', 'status' ) );
+                $table->primary( array( 'uid', 'gname', 'type' ) );
 
                 $table->foreign( 'uid' )
                     ->references( 'id' )
