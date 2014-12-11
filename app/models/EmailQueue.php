@@ -31,10 +31,10 @@
          */
         public function fire( $job, $data )
         {
-            // check if job failed the first time
+            // check if job failed the first time if yes delete it don't re-run it
             if ( $job->attempts() > 1 ) {
                 $job->delete();
-            }// execute the job
+            }// else execute the job
             else {
 
                 $sent = false;
@@ -87,7 +87,7 @@
                     $sent = true;
 
                     // add the status to the sent_mails table
-                    SentMail::addOrUpdateRow( $data['uid'], $data['group'], 'sent' );
+                    SentMail::addOrUpdateRow( $data['uid'], $data['group'], $data['state'], 'sent' );
 
                     //Log::debug( '@Suresh sent_mails table updated' );
 
@@ -101,7 +101,7 @@
                 }
 
                 if ( !$sent ) {
-                    SentMail::addOrUpdateRow( $data['uid'], $data['group'], 'failed' );
+                    SentMail::addOrUpdateRow( $data['uid'], $data['group'], $data['state'], 'failed' );
                 }
 
                 $job->delete();

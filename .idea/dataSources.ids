@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - homestead@localhost" uuid="a8c64ce4-3cc8-40a1-9fae-06f8ea8690d0">
+    <database-info product="MySQL" version="5.6.19-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <schema name="" catalog="homestead"/>
+    <table name="attachments" schema="" catalog="homestead" type="TABLE">
+      <column name="id" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fid" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="filename" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="attachments_id_foreign" columns="id" ref-table="users" ref-schema="" ref-catalog="homestead" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="attachments_fid_index" unique="false" columns="fid"/>
+      <index name="attachments_filename_index" unique="false" columns="filename"/>
+      <index name="attachments_id_index" unique="false" columns="id"/>
+    </table>
+    <table name="bcclists" schema="" catalog="homestead" type="TABLE">
+      <column name="bcc_id" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="bcclists_bcc_id_foreign" columns="bcc_id" ref-table="groups" ref-schema="" ref-catalog="homestead" ref-columns="gid_name" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="bcclists_bcc_id_index" unique="false" columns="bcc_id"/>
+    </table>
+    <table name="cclists" schema="" catalog="homestead" type="TABLE">
+      <column name="cc_id" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="cclists_cc_id_foreign" columns="cc_id" ref-table="groups" ref-schema="" ref-catalog="homestead" ref-columns="gid_name" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="cclists_cc_id_index" unique="false" columns="cc_id"/>
+    </table>
+    <table name="failed_jobs" schema="" catalog="homestead" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="connection" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="queue" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="payload" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="failed_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="groups" schema="" catalog="homestead" type="TABLE">
+      <column name="gid" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="gname" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="gid_name" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="reminder" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="hr_name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="company" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="state" sqlType="ENUM" precision="9" scale="0" nullable="false" jdbcType="1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="gid,gname"/>
+      <foreign-key name="groups_gid_foreign" columns="gid" ref-table="users" ref-schema="" ref-catalog="homestead" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <exported-key name="bcclists_bcc_id_foreign" table="bcclists" schema="" catalog="homestead" columns="bcc_id"/>
+      <exported-key name="cclists_cc_id_foreign" table="cclists" schema="" catalog="homestead" columns="cc_id"/>
+      <exported-key name="tolists_to_id_foreign" table="tolists" schema="" catalog="homestead" columns="to_id"/>
+      <index name="groups_gid_name_unique" unique="true" columns="gid_name"/>
+      <index name="groups_gid_index" unique="false" columns="gid"/>
+      <index name="groups_gname_index" unique="false" columns="gname"/>
+    </table>
+    <table name="migrations" schema="" catalog="homestead" type="TABLE">
+      <column name="migration" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="batch" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+    </table>
+    <table name="options" schema="" catalog="homestead" type="TABLE">
+      <column name="key" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="value" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="key"/>
+    </table>
+    <table name="sent_mails" schema="" catalog="homestead" type="TABLE">
+      <column name="uid" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="gname" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="type" sqlType="ENUM" precision="7" scale="0" nullable="false" jdbcType="1"/>
+      <column name="status" sqlType="ENUM" precision="8" scale="0" nullable="false" jdbcType="1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="uid,gname,type"/>
+      <foreign-key name="sent_mails_uid_foreign" columns="uid" ref-table="users" ref-schema="" ref-catalog="homestead" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="sent_mails_gname_index" unique="false" columns="gname"/>
+      <index name="sent_mails_status_index" unique="false" columns="status"/>
+      <index name="sent_mails_type_index" unique="false" columns="type"/>
+      <index name="sent_mails_uid_index" unique="false" columns="uid"/>
+    </table>
+    <table name="tolists" schema="" catalog="homestead" type="TABLE">
+      <column name="to_id" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="tolists_to_id_foreign" columns="to_id" ref-table="groups" ref-schema="" ref-catalog="homestead" ref-columns="gid_name" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="tolists_to_id_index" unique="false" columns="to_id"/>
+    </table>
+    <table name="users" schema="" catalog="homestead" type="TABLE">
+      <column name="id" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="remember_token" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="email"/>
+      <exported-key name="attachments_id_foreign" table="attachments" schema="" catalog="homestead" columns="id"/>
+      <exported-key name="groups_gid_foreign" table="groups" schema="" catalog="homestead" columns="gid"/>
+      <exported-key name="sent_mails_uid_foreign" table="sent_mails" schema="" catalog="homestead" columns="uid"/>
+      <index name="users_id_unique" unique="true" columns="id"/>
+    </table>
+  </data-source>
+</component>

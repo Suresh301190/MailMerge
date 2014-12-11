@@ -11,10 +11,11 @@
     /**
      * Class SentMail
      *
-     * @property string uid     User id
-     * @property string gname   group name
-     * @property enum   status  ['sending', 'sent', 'failed']
-     * @property  enum  type    ['invite', 'follow', 'confirm']
+     * @property string   uid        User id
+     * @property string   gname      group name
+     * @property enum     status     ['sending', 'sent', 'failed']
+     * @property enum     type       ['invite', 'follow', 'confirm']
+     * @property dateTime updated_at time when the record was updated
      */
     class SentMail extends Eloquent
     {
@@ -36,6 +37,7 @@
          *
          * @param string $uid    user ID
          * @param string $gname  group name to update
+         * @param string $type type of the message
          * @param string $status default is 'sending'
          *
          * @internal param string $mail_id
@@ -43,18 +45,27 @@
         public static function addOrUpdateRow( $uid, $gname, $type, $status = '' )
         {
             if ( $status == '' ) {
+                SentMail::where( 'uid', '=', $uid )
+                    ->where( 'gname', '=', $gname )
+                    ->where( 'type', '=', $type )
+                    ->delete();
+
                 $sent = new SentMail();
-                $sent->status = 'sending';
-                $sent->gname = $gname;
                 $sent->uid = $uid;
+                $sent->gname = $gname;
                 $sent->type = $type;
+                $sent->status = 'sending';
                 $sent->save();
-            } else {
+
+            } else if ( $status != '' ) {
                 DB::table( 'sent_mails' )
                     ->where( 'uid', '=', $uid )
                     ->where( 'gname', '=', $gname )
                     ->where( 'type', '=', $type )
-                    ->update( array( 'status' => $status ) );
+                    ->update( array(
+                        'status'     => $status,
+                        'updated_at' => Carbon::now()->toDateTimeString(),
+                    ) );
             }
         }
 

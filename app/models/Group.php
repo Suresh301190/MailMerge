@@ -208,6 +208,8 @@
                 return $toUpdate;
             }
 
+            $toUpdate['updated_at'] = Carbon::now()->toDateTimeString();
+
             DB::table( 'groups' )
                 ->where( 'gid_name', '=', self::getUID() . '_' . $data ['gname'] )
                 ->update( $toUpdate );
@@ -325,13 +327,32 @@
                 ->where( 'gid', '=', $uid )
                 ->where( 'gname', '=', $group )
                 ->update( array(
-                    'state'    => $next,
-                    'reminder' => Carbon::now()->addDays( $remind ),
+                    'state'      => $next,
+                    'reminder'   => Carbon::now()->addDays( $remind ),
+                    'updated_at' => Carbon::now(),
                 ) );
 
             // to clear cache
             self::setGroupUpdated();
 
+        }
+
+        public static function getReminders()
+        {
+            $reminders = Group::select( array( 'gname', 'state' ) )
+                ->where( 'gid', '=', User::getUID() )
+                ->where( 'state', '!=', 'confirmed' )
+                ->where( 'updated_at', '<=', Carbon::now()->toDateTimeString() )
+                ->orderBy( 'reminder' )
+                ->get()
+                ->toArray();
+
+            return $reminders;
+        }
+
+        public static function getReminderCount()
+        {
+            return count( Group::getReminders() );
         }
 
     }

@@ -104,7 +104,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-5 pull-right">
+        <div class="col-lg-4 pull-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> Notifications

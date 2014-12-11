@@ -149,7 +149,7 @@
                         $mailData['group'] = $group;
                         $mailData['state'] = $state;
 
-                        SentMail::addOrUpdateRow( $mailData['uid'], $group );
+                        SentMail::addOrUpdateRow( $mailData['uid'], $group, $state );
                         Queue::later( Carbon::now()->addSeconds( $delay ), 'EmailQueue', $mailData );
 
                         // Increase Delay
