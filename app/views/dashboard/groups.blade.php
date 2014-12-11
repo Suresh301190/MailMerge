@@ -26,6 +26,14 @@
                 {{ Form::close() }}
             </div>
         </div>
+        <div class="col-lg-3">
+            <!-- To Display messages -->
+            @if(isset($data['success']) and $data['success'])
+                <div class="alert alert-success col-lg-9">{{ $data['message']  }}</div>
+            @elseif(isset($data['success']) and ! $data['success'])
+                <div class="alert alert-danger col-lg-9">{{ $data['message'] }}</div>
+            @endif
+        </div>
     </div>
 
     <div class="row">
@@ -66,6 +74,21 @@
                         'placeholder' => 'Enter Company name' ) ) }}</div>
                 </div>
                 <div class="row">
+                    <div class="col-lg-2">
+                        <div class="help-block">Select State</div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="state" value="default" checked>default
+                            </label>
+                        </div>
+                        @foreach($states as $v)
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="state" value="{{{ $v }}}">{{ $v }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="col-lg-4">
                         {{ Form::select('gname', $groups, 'No Group to Delete', array(
                         'class' => 'form-control top-buffer')) }}</div>
@@ -77,13 +100,5 @@
             <!-- Ends Update group details  -->
         </div>
     </div>
-
-    <!-- To Display messages -->
-    @if(isset($data['success']) and $data['success'])
-        <div class="alert alert-success col-lg-9">{{ $data['message']  }}</div>
-    @elseif(isset($data['success']) and ! $data['success'])
-        <div class="alert alert-danger col-lg-9">{{ $data['message'] }}</div>
-    @endif
-
 </div>
 @stop

@@ -1,5 +1,6 @@
 <?php
     use Carbon\Carbon;
+    use Illuminate\Support\Facades\Log;
 
     /**
      * @property string   gid
@@ -130,6 +131,7 @@
         /**
          * Factory function to get all the groups under a user,
          * <br>further it caches the results for better performance
+         * <br>Temporarily Caching is disabled
          *
          * @return mixed
          */
@@ -190,16 +192,25 @@
 
             $data = Input::all();
             $toUpdate = array();
+
+            // if new group name is given
             if ( !empty( $data['ugname'] ) ) {
                 $toUpdate['gname'] = str_replace( ' ', '_', strtolower( Input::get( 'ugname' ) ) );
                 $toUpdate['gid_name'] = User::getUID() . '_' . $toUpdate['gname'];
             }
+            // if new HR name is given
             if ( !empty( $data['HR'] ) ) {
                 $toUpdate['hr_name'] = $data['HR'];
             }
+            // if new Company name is given
             if ( !empty( $data['COMPANY'] ) ) {
                 $toUpdate['company'] = $data['COMPANY'];
             }
+
+            if ( strcmp( $data['state'], 'default' ) && in_array( $data['state'], self::$states ) ) {
+                $toUpdate['state'] = $data['state'];
+            }
+            Log::info( $data['state'] );
 
             if ( !count( $toUpdate ) ) {
                 $toUpdate['message'] = 'Invalid Values please try again';

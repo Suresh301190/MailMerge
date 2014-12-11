@@ -43,7 +43,8 @@
         }
 
         return View::make( 'dashboard.groups', array(
-            'groups' => Group::getAllGroups()
+            'groups' => Group::getAllGroups(),
+            'states' => Group::getStatesArray(),
         ) );
     } );
 
