@@ -55,10 +55,8 @@
 
         return View::make( 'dashboard.lists', array(
             'groups' => Group::getAllGroups(),
-            'mlists' => EmailService::getMailingListArray()
+            'mlists' => EmailService::getMailingListArray(),
         ) );
-
-        return Redirect::to( 'login' );
 
     } );
 

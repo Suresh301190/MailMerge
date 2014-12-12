@@ -21,21 +21,17 @@
 
         public function getGroups()
         {
-
             return View::make( 'dashboard.groups', array(
                 'groups' => Group::getAllGroups()
             ) );
-
         }
 
         public function deleteGroup()
         {
-
             return View::make( 'dashboard.groups', array(
                 'data'   => Group::deleteOne(),
                 'groups' => Group::getAllGroups()
             ) );
-
         }
 
         public function updateGroup()

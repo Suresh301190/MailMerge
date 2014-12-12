@@ -119,17 +119,61 @@
          *
          * @return array $notifications
          */
-        public static function getNotifications( $lastXDays = 3, $take = 10 )
+        public static function getNotifications( $lastXDays = 7, $take = 10 )
         {
-            $notification = SentMail::select( array( 'gname', 'status', 'type' ) )
+            $notification = SentMail::select( array( 'gname', 'status', 'type', 'updated_at' ) )
                 ->where( 'uid', '=', User::getUID() )
                 ->where( 'updated_at', '>=', Carbon::now()->subDays( $lastXDays )->toDateTimeString() )
-                ->orderBy( 'updated_at' )
+                ->orderBy( 'updated_at', 'desc' )
                 ->take( $take )
                 ->get()
                 ->toArray();
 
             return $notification;
+        }
+
+        private static $stateToMessage = array(
+            'invite'  => 'invite ',
+            'follow'  => 'follow up ',
+            'confirm' => 'confirmation '
+        );
+
+        /**
+         * Get the Cleaned Notifications to be displayed on the dashboard
+         *
+         * @param int $lastXDays How far to search
+         * @param int $take      How many results to take
+         *
+         * @return array ['message', 'type', 'timestamp']
+         */
+        public static function getCleanedNotifications( $lastXDays = 7, $take = 10 )
+        {
+            $notifications = SentMail::getNotifications( $lastXDays, $take );
+            $ret = array();
+
+            foreach ( $notifications as $mail ) {
+                $row = array();
+
+                // sent status
+                if ( strcmp( $mail['status'], 'sent' ) == 0 ) {
+                    $row['message'] = self::$stateToMessage[ $mail['type'] ] . 'sent to ' . $mail['gname'];
+                    $row['type'] = 1;
+                } // failed status
+                elseif ( strcmp( $mail['status'], 'failed' ) == 0 ) {
+                    $row['message'] = self::$stateToMessage[ $mail['type'] ] . 'to ' . $mail['gname'] . ' failed';
+                    $row['type'] = 2;
+                } // Sending status
+                else {
+                    $row['message'] = 'sending ' . self::$stateToMessage[ $mail['type'] ] . 'to ' . $mail['gname'];
+                    $row['type'] = 0;
+                }
+
+                $row['time'] = Carbon::createFromFormat( 'Y-m-d H:i:s', $mail['updated_at'] )->diffForHumans( Carbon::now() );
+                array_push( $ret, $row );
+            }
+
+            return $ret;
+
         }
 
     }

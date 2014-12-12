@@ -33,8 +33,18 @@
             'confirm',
         );
 
-        public static function getStatesArray()
+        /**
+         * Get the array of states available
+         *
+         * @param bool $confirmed add confirmed as well to states
+         *
+         * @return array
+         */
+        public static function getStatesArray( $confirmed = false )
         {
+            if ( $confirmed )
+                return array_merge( self::$states, array( 'confirmed' ) );
+
             return self::$states;
         }
 
@@ -348,6 +358,11 @@
 
         }
 
+        /**
+         * Get a list of reminders for the user
+         *
+         * @return array $reminders
+         */
         public static function getReminders()
         {
             $reminders = Group::select( array( 'gname', 'state' ) )
@@ -361,6 +376,11 @@
             return $reminders;
         }
 
+        /**
+         * counts the no. of reminders available for the user
+         *
+         * @return int
+         */
         public static function getReminderCount()
         {
             return count( Group::getReminders() );

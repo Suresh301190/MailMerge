@@ -13,7 +13,7 @@
 
 	    <!-- Bootstrap Core CSS -->
 	    {{HTML::style('css/bootstrap.min.css')}}
-	    
+
 	    <!-- MetisMenu CSS -->
 	    {{HTML::style('css/plugins/metisMenu/metisMenu.min.css')}}
 
@@ -28,25 +28,25 @@
 
 	    <!-- Custom Fonts -->
 	    {{HTML::style('font-awesome-4.1.0/css/font-awesome.min.css')}}
-	    
-	    <style type="text/css">
+
+        <style type="text/css">
 	    .top-buffer{
 	       margin-top:10px;
 	       margin-bottom:10px;
 	    }
 	    </style>
-	    
-	    <!-- To place CKEditor script -->
+
+        <!-- To place CKEditor script -->
 	    @yield('ckeditor')
 	</head>
 	<body>
 		<div id="wrapper">
 			@yield('navigation')
-            
+
             @yield('content')
 		</div>
-		
-		<!-- jQuery -->
+
+        <!-- jQuery -->
 		{{HTML::script('js/jquery.js')}}
 
     	<!-- Bootstrap Core JavaScript -->
@@ -54,8 +54,8 @@
 
     	<!-- Metis Menu Plugin JavaScript -->
     	{{HTML::script('js/plugins/metisMenu/metisMenu.min.js')}}
-    	
-    	<!-- DataTables JavaScript -->
+
+        <!-- DataTables JavaScript -->
     	{{HTML::script('js/plugins/dataTables/jquery.dataTables.js')}}
     	{{HTML::script('js/plugins/dataTables/dataTables.bootstrap.js')}}
 
@@ -66,6 +66,7 @@
 
     	<!-- Custom Theme JavaScript -->
     	{{HTML::script('js/sb-admin-2.js')}}
-    	
+
+        @yield('timestamp')
 	</body>
 </html>

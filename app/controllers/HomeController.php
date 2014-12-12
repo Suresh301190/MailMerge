@@ -21,6 +21,10 @@
             $data = array();
             $data['added'] = User::addUser()['added'];
             $data['groupCount'] = Group::getAllGroupsByStatusCount( true );
+            $data['reminderCount'] = Group::getReminderCount();
+            $data['notifications'] = SentMail::getCleanedNotifications();
+
+            // Log::info( $data['notifications'] );
 
             return View::make( 'dashboard.home', $data );
 
